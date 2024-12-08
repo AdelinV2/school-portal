@@ -1,0 +1,80 @@
+a, p, h1, h2, h3, h4, h5, h6, li, ul {
+  margin: 0;
+  text-decoration: none;
+  list-style: none;
+}
+
+a {
+  color: #fff;
+  cursor: pointer;
+}
+
+a:hover {
+  color: #d79510;
+}
+
+.list-recondi {
+  max-inline-size: 1700px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.card-recondi {
+  border: solid 1px #fec;
+}
+
+.card-recondi-top {
+  background-color: #000000;
+}
+
+.card-recondi-txt {
+  padding: 7px 7px;
+  margin-bottom: 8px;
+}
+
+.card-recondi-img {
+  width: 100%;
+  transition: transform 75ms ease;
+}
+
+.card-recondi-top:hover .card-recondi-img {
+  transform: translate(-2px, 2px);
+  width: 100%;
+  border-bottom: solid 2px #fec;
+}
+
+.card-recondi-btn {
+  padding: 15px 15px;
+}
+
+.card-recondi-tag {
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.text-card {
+  background-color: #664910;
+  padding: 8px 19px 8px 19px;
+  border-radius: 12px;
+}
+
+.text-card:hover {
+  color: #de8e13;
+}
+
+.list-recondi {
+  max-inline-size: 1700px;
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+  gap: 10px;
+  grid-template: 1fr / 1fr 1fr 1fr 1fr;
+  justify-items: stretch;
+  align-items: stretch;
+}
+

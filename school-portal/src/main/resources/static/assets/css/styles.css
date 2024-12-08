@@ -1,0 +1,6 @@
+@media (min-width: 1400px) {
+  .navbar {
+    background: var(--bs-primary);
+  }
+}
+
