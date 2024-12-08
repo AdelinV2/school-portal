@@ -1,0 +1,31 @@
+# Directories
+/target/
+/bin/
+/out/
+
+# IntelliJ IDEA
+/.idea/
+/*.iml
+
+# Maven
+/.mvn/
+mvnw
+mvnw.cmd
+
+# Logs
+*.log
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Compiled class files
+*.class
+
+# Package files
+*.jar
+*.war
+*.ear
