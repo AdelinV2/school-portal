@@ -25,6 +25,15 @@ public class Teacher {
     @Column(name = "specialization", nullable = false, length = 20)
     private String specialization;
 
+    public Teacher() {
+    }
+
+    public Teacher(Integer id, User user, String specialization) {
+        this.id = id;
+        this.user = user;
+        this.specialization = specialization;
+    }
+
     public Integer getId() {
         return id;
     }

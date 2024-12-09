@@ -29,6 +29,16 @@ public class Course {
     @JoinColumn(name = "teacher_id", nullable = false)
     private Teacher teacher;
 
+    public Course() {
+    }
+
+    public Course(Integer id, String name, String description, Teacher teacher) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.teacher = teacher;
+    }
+
     public Integer getId() {
         return id;
     }

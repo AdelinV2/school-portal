@@ -33,6 +33,17 @@ public class Class {
     @JoinColumn(name = "tutor")
     private Teacher tutor;
 
+    public Class() {
+    }
+
+    public Class(Integer id, String subject, String year, String section, Teacher tutor) {
+        this.id = id;
+        this.subject = subject;
+        this.year = year;
+        this.section = section;
+        this.tutor = tutor;
+    }
+
     public Integer getId() {
         return id;
     }

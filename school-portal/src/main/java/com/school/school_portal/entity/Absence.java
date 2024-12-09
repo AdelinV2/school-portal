@@ -36,6 +36,17 @@ public class Absence {
     @Column(name = "excused")
     private Boolean excused;
 
+    public Absence() {
+    }
+
+    public Absence(Integer id, Student student, ClassCourse classCourse, LocalDate absenceDate, Boolean excused) {
+        this.id = id;
+        this.student = student;
+        this.classCourse = classCourse;
+        this.absenceDate = absenceDate;
+        this.excused = excused;
+    }
+
     public Integer getId() {
         return id;
     }

@@ -25,6 +25,15 @@ public class ClassCourse {
     @JoinColumn(name = "course_id", nullable = false)
     private Course course;
 
+    public ClassCourse() {
+    }
+
+    public ClassCourse(Integer id, Class classField, Course course) {
+        this.id = id;
+        this.classField = classField;
+        this.course = course;
+    }
+
     public Integer getId() {
         return id;
     }

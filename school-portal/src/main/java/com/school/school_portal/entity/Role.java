@@ -17,6 +17,14 @@ public class Role {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
+    public Role() {
+    }
+
+    public Role(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

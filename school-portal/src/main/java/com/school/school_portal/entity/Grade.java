@@ -36,6 +36,17 @@ public class Grade {
     @Column(name = "date_assigned", nullable = false)
     private LocalDate dateAssigned;
 
+    public Grade() {
+    }
+
+    public Grade(Integer id, Student student, ClassCourse classCourse, BigDecimal grade, LocalDate dateAssigned) {
+        this.id = id;
+        this.student = student;
+        this.classCourse = classCourse;
+        this.grade = grade;
+        this.dateAssigned = dateAssigned;
+    }
+
     public Integer getId() {
         return id;
     }

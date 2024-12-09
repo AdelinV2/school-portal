@@ -25,6 +25,15 @@ public class Student {
     @JoinColumn(name = "class_id", nullable = false)
     private Class classField;
 
+    public Student() {
+    }
+
+    public Student(Integer id, User user, Class classField) {
+        this.id = id;
+        this.user = user;
+        this.classField = classField;
+    }
+
     public Integer getId() {
         return id;
     }
