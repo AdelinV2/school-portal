@@ -2,6 +2,7 @@ package com.school.school_portal.service;
 
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.UserRepository;
+import com.school.school_portal.util.CustomUserDetails;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
