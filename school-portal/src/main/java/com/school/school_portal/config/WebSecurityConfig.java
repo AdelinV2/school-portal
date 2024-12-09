@@ -29,7 +29,9 @@ public class WebSecurityConfig {
 
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/login").permitAll();
+            auth.requestMatchers("/assets/**").permitAll();
             auth.anyRequest().authenticated();
+
         });
 
         http.formLogin(form -> form.loginPage("/login").permitAll())
