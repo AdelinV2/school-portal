@@ -8,11 +8,13 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
+@EnableWebSecurity
 public class WebSecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
@@ -34,11 +36,15 @@ public class WebSecurityConfig {
 
         });
 
-        http.formLogin(form -> form.loginPage("/login").permitAll())
-            .logout(logout -> {
-                logout.logoutUrl("/logout");
-                logout.logoutSuccessUrl("/");
-            }).cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable());
+        http.formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll())
+                .logout(logout -> {
+                    logout.logoutUrl("/logout");
+                    logout.logoutSuccessUrl("/");
+                }).cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
+                .exceptionHandling(configurer ->
+                        configurer.accessDeniedPage("/access-denied"));
 
         return http.build();
     }
