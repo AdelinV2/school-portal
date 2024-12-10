@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -21,7 +20,6 @@
     <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
     <link rel="stylesheet" th:href="@{/assets/css/untitled.css}">
 </head>
-
 <body style="background: var(--bs-light-border-subtle);">
     <nav class="navbar navbar-expand-md" style="background: rgba(35,191,79,0.86);border-bottom-width: 11px;border-bottom-color: var(--bs-primary);">
         <div class="container-fluid">
@@ -51,11 +49,13 @@
                             </div>
                             <form class="text-center" method="post" th:action="@{/login}" th:object="${user}">
                                 <div class="mb-3">
-                                    <input class="form-control" type="email" name="email" placeholder="Email" >
+                                    <input class="form-control" type="email" name="username" placeholder="Email">
                                 </div>
                                 <div class="mb-3">
                                     <input class="form-control" type="password" name="password" placeholder="Password">
                                 </div>
+                                <div th:if="${param.error}" class="alert alert-danger" role="alert">Invalid email or password</div>
+                                <div th:if="${param.logout}" class="alert alert-success" role="alert">You have been logged out</div>
                                 <div class="mb-3">
                                     <button class="btn btn-primary d-block w-100" type="submit">Login</button>
                                 </div>
@@ -115,5 +115,4 @@
     <script th:src="@{/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---1-Index-Table-with-Search--Sort-Filters.js}"></script>
     <script th:src="@{/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---Material-UI-Actions.js}"></script>
 </body>
-
 </html>
