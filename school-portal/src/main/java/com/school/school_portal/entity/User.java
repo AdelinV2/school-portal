@@ -8,6 +8,7 @@ import org.hibernate.annotations.ColumnDefault;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -33,12 +34,12 @@ public class User {
     @Column(name = "password", nullable = false, length = 68)
     private String password;
 
-    @ColumnDefault("1")
+    @ColumnDefault("0")
     @Column(name = "active")
     private Boolean active;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
@@ -111,4 +112,16 @@ public class User {
         this.role = role;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", role=" + role +
+                '}';
+    }
 }
