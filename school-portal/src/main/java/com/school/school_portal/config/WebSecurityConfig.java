@@ -1,5 +1,6 @@
 package com.school.school_portal.config;
 
+import com.school.school_portal.config.CustomAuthenticationSuccessHandler;
 import com.school.school_portal.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,10 +19,12 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
 
     private final CustomUserDetailsService customUserDetailsService;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired
-    public WebSecurityConfig(CustomUserDetailsService customUserDetailsService) {
+    public WebSecurityConfig(CustomUserDetailsService customUserDetailsService, CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler) {
         this.customUserDetailsService = customUserDetailsService;
+        this.customAuthenticationSuccessHandler = customAuthenticationSuccessHandler;
     }
 
     @Bean
@@ -37,8 +40,8 @@ public class WebSecurityConfig {
         });
 
         http.formLogin(form -> form
-                        .loginPage("/login")
-                        .permitAll())
+                        .loginPage("/login").permitAll()
+                        .successHandler(customAuthenticationSuccessHandler))
                 .logout(logout -> {
                     logout.logoutUrl("/logout");
                     logout.logoutSuccessUrl("/");
