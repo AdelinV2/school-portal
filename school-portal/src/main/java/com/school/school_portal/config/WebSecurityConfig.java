@@ -42,6 +42,9 @@ public class WebSecurityConfig {
         http.formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .successHandler(customAuthenticationSuccessHandler))
+                .rememberMe(form -> form
+                        .key("uniqueAndSecret")
+                        .tokenValiditySeconds(2592000)) // 30 days
                 .logout(logout -> {
                     logout.logoutUrl("/logout");
                     logout.logoutSuccessUrl("/");
