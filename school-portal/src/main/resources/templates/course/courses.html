@@ -26,7 +26,8 @@
 <body style="min-height: 740px;display: flex;flex-direction: column;background: var(--bs-secondary-bg);">
     <nav class="navbar navbar-expand-md mb-4" style="background: rgba(35,191,79,0.86);border-bottom-width: 11px;border-bottom-color: var(--bs-primary);display: flex;">
         <div class="container-fluid"><a class="navbar-brand" href="#" style="font-weight: bold;color: #161a1e;">Spring School</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse justify-content-end" id="navcol-1"><span class="navbar-text">firstName + lastName</span><button class="btn btn-primary ms-4" style="display: flex;" onclick="window.location.href='/logout'">Log out</button></div>
+            <div class="collapse navbar-collapse justify-content-end" id="navcol-1"><span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
+                <button class="btn btn-primary ms-4" style="display: flex;" onclick="window.location.href='/logout'">Log out</button></div>
         </div>
     </nav>
     <div class="container" style="min-height: 80.8vh;">
