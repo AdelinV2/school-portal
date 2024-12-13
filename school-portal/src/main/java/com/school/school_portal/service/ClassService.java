@@ -5,6 +5,7 @@ import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.entity.Class;
 import com.school.school_portal.repository.ClassRepository;
 import com.school.school_portal.repository.TeacherRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -17,6 +18,7 @@ public class ClassService {
     private final TeacherRepository teacherRepository;
     private final ClassRepository classRepository;
 
+    @Autowired
     public ClassService(TeacherRepository teacherRepository, ClassRepository classRepository) {
         this.teacherRepository = teacherRepository;
         this.classRepository = classRepository;
