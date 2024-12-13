@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Navbar Fragment</title>
+</head>
+<body>
+    <nav>
+        <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span>
+        <!--
+        <span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
+         -->
+    </nav>
+</body>
+</html>
