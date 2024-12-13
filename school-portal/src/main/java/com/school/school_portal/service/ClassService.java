@@ -39,8 +39,7 @@ public class ClassService {
     public List<String> getAllTutors() {
 
         List<Teacher> allTeachers = teacherRepository.findAll();
-        List<Teacher> assignedTutors = classRepository.findAll().stream().map(Class::getTutor).
-                collect(Collectors.toList());
+        List<Teacher> assignedTutors = classRepository.findAll().stream().map(Class::getTutor).toList();
 
         return allTeachers.stream().filter(teacher -> !assignedTutors.contains(teacher)).map(teacher ->
                 teacher.getUser().getFullName()).collect(Collectors.toList());
