@@ -14,11 +14,13 @@ public class TeacherService {
 
     private final TeacherRepository teacherRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository, UserRepository userRepository) {
+    public TeacherService(TeacherRepository teacherRepository, UserRepository userRepository, UserService userService) {
         this.teacherRepository = teacherRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     public void saveTeacher(TeacherForm teacherForm) {
@@ -31,15 +33,12 @@ public class TeacherService {
         newUser.setEmail(teacherForm.getEmail());
         newUser.setActive(false);
         newUser.setRole(new Role(2, "TEACHER"));
-        // TODO generate password and set it to newUser
 
-        userRepository.save(newUser);
+        userService.saveNewUserWithRandomPassword(newUser);
 
         newTeacher.setUser(newUser);
         newTeacher.setSpecialization(teacherForm.getTeachingSubject());
 
         teacherRepository.save(newTeacher);
-
-        //TODO send email to teacher with password
     }
 }
