@@ -1,5 +1,6 @@
 package com.school.school_portal.service;
 
+import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.entity.Class;
 import com.school.school_portal.repository.ClassRepository;
@@ -41,5 +42,17 @@ public class ClassService {
 
         return allTeachers.stream().filter(teacher -> !assignedTutors.contains(teacher)).map(teacher ->
                 teacher.getUser().getFullName()).collect(Collectors.toList());
+    }
+
+    public void saveClass(ClassForm classForm) {
+
+        Class newClass = new Class();
+
+        newClass.setSubject(classForm.getSubject());
+        newClass.setYear(classForm.getYear());
+        newClass.setSection(classForm.getSection());
+        newClass.setTutor(teacherRepository.findByUser_FullName(classForm.getTutor()).get());
+
+        classRepository.save(newClass);
     }
 }
