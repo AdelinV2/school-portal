@@ -1,19 +1,19 @@
 package com.school.school_portal.dto;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 
 public class TeacherForm {
 
-    @NotNull
+    @NotEmpty
     private String firstName;
 
-    @NotNull
+    @NotEmpty
     private String lastName;
 
-    @NotNull
+    @NotEmpty
     private String teachingSubject;
 
-    @NotNull
+    @NotEmpty
     private String email;
 
     public String getFirstName() {
