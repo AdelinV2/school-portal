@@ -1,5 +1,6 @@
 package com.school.school_portal.service;
 
+import com.school.school_portal.controller.EmailController;
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,13 @@ import java.security.SecureRandom;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final EmailService emailService;
+    private final EmailController emailController;
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository, EmailService emailService, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, EmailController emailController, BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.emailService = emailService;
+        this.emailController = emailController;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -43,16 +44,8 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(rawPassword);
 
         user.setPassword(encodedPassword);
+
         userRepository.save(user);
-
-        String emailSubject = "Account Created";
-        String emailBody = "Hello " + user.getRole().getName() + " " + user.getFullName() + ",\n\n" +
-                "Your school account has been created. Your password is: " + rawPassword + "\n\n" +
-                "Please login to the system and change your password.\n\n" +
-                "Regards,\n" +
-                "Spring School Office";
-
-        emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
+        emailController.sendEmailNewAccount(user, rawPassword);
     }
-
 }
