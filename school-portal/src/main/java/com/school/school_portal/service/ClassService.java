@@ -53,7 +53,12 @@ public class ClassService {
         newClass.setSubject(classForm.getSubject());
         newClass.setYear(classForm.getYear());
         newClass.setSection(classForm.getSection());
-        newClass.setTutor(teacherRepository.findByUser_FullName(classForm.getTutor()).get());
+
+        String[] nameParts = classForm.getTutor().split(" ");
+        String lastName = nameParts[nameParts.length - 1];
+        String firstName = String.join(" ", Arrays.copyOf(nameParts, nameParts.length - 1));
+
+        teacherRepository.findByUser_FirstNameAndUser_LastName(firstName, lastName).ifPresent(newClass::setTutor);
 
         classRepository.save(newClass);
     }
