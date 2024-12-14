@@ -36,6 +36,8 @@ public class TeacherController {
             return "add/add-teacher";
         }
 
+        teacherService.saveTeacher(teacherForm);
+
         return "redirect:/";
     }
 }
