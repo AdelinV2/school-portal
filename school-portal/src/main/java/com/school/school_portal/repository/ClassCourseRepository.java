@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ClassCourseRepository extends JpaRepository<ClassCourse, Integer> {
 
-    List<ClassCourse> findByClassId(Integer classId);
+    List<ClassCourse> findByClassFieldId(Integer classId);
 }
