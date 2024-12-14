@@ -35,8 +35,10 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/login").permitAll();
             auth.requestMatchers("/assets/**").permitAll();
+            auth.requestMatchers("/admin/**").hasRole("Admin");
+            auth.requestMatchers("/teacher/**").hasAnyRole("Admin", "Teacher");
+            auth.requestMatchers("/student/**").hasAnyRole("Admin", "Teacher", "Student");
             auth.anyRequest().authenticated();
-
         });
 
         http.formLogin(form -> form
