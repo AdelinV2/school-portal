@@ -57,6 +57,6 @@ public class UserService {
 
     public boolean checkEmailExists(String email) {
 
-        return userRepository.findByEmail(email).isPresent();
+        return userRepository.findByEmail(email.toLowerCase()).isPresent();
     }
 }
