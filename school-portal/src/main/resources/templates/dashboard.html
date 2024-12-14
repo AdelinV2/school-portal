@@ -1,43 +1,35 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en">
+<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
     <title>School</title>
-    <link rel="stylesheet" href="/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
-    <link rel="stylesheet" href="/assets/css/animate.min.css">
-    <link rel="stylesheet" href="/assets/css/Animation-Cards-_app.css">
-    <link rel="stylesheet" href="/assets/css/Animation-Cards.css">
-    <link rel="stylesheet" href="/assets/css/Form-Select---Full-Date---Month-Day-Year.css">
+    <link rel="stylesheet" th:href="@{/assets/css/animate.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Animation-Cards-_app.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Animation-Cards.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Form-Select---Full-Date---Month-Day-Year.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightpick@1.3.4/css/lightpick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/css/theme.bootstrap_4.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
-    <link rel="stylesheet" href="/assets/css/List-Grid-Liste-Gille-hover.css">
-    <link rel="stylesheet" href="/assets/css/Ludens---1-Index-Table-with-Search--Sort-Filters-v20.css">
-    <link rel="stylesheet" href="/assets/css/Navbar-Right-Links-Dark-icons.css">
-    <link rel="stylesheet" href="/assets/css/Pretty-Registration-Form-.css">
-    <link rel="stylesheet" href="/assets/css/styles.css">
-    <link rel="stylesheet" href="/assets/css/untitled.css">
+    <link rel="stylesheet" th:href="@{/assets/css/List-Grid-Liste-Gille-hover.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Ludens---1-Index-Table-with-Search--Sort-Filters-v20.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Navbar-Right-Links-Dark-icons.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/Pretty-Registration-Form-.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/untitled.css}">
 </head>
 
 <body style="display: flex;flex-direction: column;background: var(--bs-secondary-bg);min-width: 100vh;">
-    <nav class="navbar navbar-expand-md mb-4" style="background: rgba(35,191,79,0.86);border-bottom-width: 11px;border-bottom-color: var(--bs-primary);display: flex;">
-        <div class="container-fluid"><a class="navbar-brand" href="#" style="font-weight: bold;color: #161a1e;">Spring School</a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse justify-content-end" id="navcol-1"><span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
-                <button class="btn btn-primary ms-4" style="display: flex;" onclick="window.location.href='/logout'">Log out</button></div>
-        </div>
-    </nav>
-    <div class="container">
-        <div><button class="btn btn-primary" type="button">Add class</button></div>
-    </div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
     <div class="container" style="min-height: 80.8vh;">
         <div class="row d-xxl-flex">
             <div class="col justify-content-center" style="display: flex;">
                 <div class="card" style="width: 18rem;border-top-left-radius: 20px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;box-shadow: 5px 5px 16px 2px rgba(0,0,0,0.25);margin: 14px;min-width: 280px;max-width: 300px;margin-bottom: 20px;">
-                    <div style="width: 100%;height: 191px;background: url(&quot;/assets/img/classroom.png&quot;) center / contain;border-top-left-radius: 20px;border-top-right-radius: 20px;"></div>
+                    <div style="width: 100%;height: 191px;background: url('/assets/img/classroom.png') center / contain;border-top-left-radius: 20px;border-top-right-radius: 20px;"></div>
                     <div class="card-body d-flex flex-column" style="height: 262px;">
                         <div>
                             <h4 style="font-family: 'Source Sans Pro', sans-serif;color: rgb(255,160,0);font-weight: bold;">Class IX-B</h4>
@@ -79,20 +71,20 @@
             </div>
         </div>
     </footer>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/assets/js/bs-init.js"></script>
+    <script th:src="@{/assets/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/assets/js/bs-init.js}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lightpick@1.3.4/lightpick.min.js"></script>
-    <script src="/assets/js/Date-Range-Picker-datepicker.js"></script>
-    <script src="/assets/js/DateRangePicker-My-Date-Picker.js"></script>
+    <script th:src="@{/assets/js/Date-Range-Picker-datepicker.js}"></script>
+    <script th:src="@{/assets/js/DateRangePicker-My-Date-Picker.js}"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/jquery.tablesorter.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/widgets/widget-filter.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.2/js/widgets/widget-storage.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    <script src="/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---1-Index-Table-with-Search--Sort-Filters.js"></script>
-    <script src="/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---Material-UI-Actions.js"></script>
+    <script th:src="@{/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---1-Index-Table-with-Search--Sort-Filters.js}"></script>
+    <script th:src="@{/assets/js/Ludens---1-Index-Table-with-Search--Sort-Filters-v20-Ludens---Material-UI-Actions.js}"></script>
 </body>
 
 </html>
