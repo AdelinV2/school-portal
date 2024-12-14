@@ -44,7 +44,7 @@
                         <p style="font-family: 'Source Sans Pro', sans-serif;color: #212121;margin-top: 4px;"
                            th:text="'Number of students: ' + ${classService.getNumberOfStudentsInClass(class.id)}"></p>
                     </div>
-                    <a class="align-self-end card-link" data-bss-hover-animate="pulse" th:href="${userRole == 'Admin'} ? '/admin/class/' + ${class.id} : '/teacher/class/' + ${class.id}"
+                    <a class="align-self-end card-link" data-bss-hover-animate="pulse" th:href="${userRole == 'Admin' ? '/admin/class/' + class.id : '/teacher/class/' + class.id}"
                        style="padding: 4px;background: #b86868;color: rgb(255,255,255);border-radius: 17px;padding-right: 14px;padding-left: 14px;padding-bottom: 6px;font-family: 'Source Sans Pro', sans-serif;margin-top: auto;">See class</a>
                 </div>
             </div>
