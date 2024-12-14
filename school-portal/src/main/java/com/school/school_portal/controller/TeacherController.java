@@ -32,11 +32,21 @@ public class TeacherController {
     public String addTeacher(@Valid TeacherForm teacherForm, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+
             model.addAttribute("teacherForm", teacherForm);
+
             return "add/add-teacher";
         }
 
-        teacherService.saveTeacher(teacherForm);
+        if (!teacherService.saveTeacher(teacherForm)) {
+
+            teacherForm.setEmail(null);
+
+            model.addAttribute("teacherForm", teacherForm);
+            model.addAttribute("error", "Email already exists");
+
+            return "add/add-teacher";
+        }
 
         return "redirect:/";
     }

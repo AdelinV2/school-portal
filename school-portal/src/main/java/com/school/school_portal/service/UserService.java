@@ -8,7 +8,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -39,12 +38,10 @@ public class UserService {
         return password.toString();
     }
 
-    public void saveNewUserWithRandomPassword(User user) {
+    public boolean saveNewUserWithRandomPassword(User user) {
 
-        Optional<User> existingUser = userRepository.findByEmail(user.getEmail());
-
-        if (existingUser.isPresent()) {
-            throw new IllegalStateException("Email already taken");
+        if (checkEmailExists(user.getEmail())) {
+            return false;
         }
 
         String rawPassword = generateRandomPassword();
@@ -54,5 +51,12 @@ public class UserService {
 
         userRepository.save(user);
         emailController.sendEmailNewAccount(user, rawPassword);
+
+        return true;
+    }
+
+    public boolean checkEmailExists(String email) {
+
+        return userRepository.findByEmail(email).isPresent();
     }
 }

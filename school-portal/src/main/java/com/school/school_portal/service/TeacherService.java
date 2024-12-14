@@ -23,7 +23,7 @@ public class TeacherService {
         this.userService = userService;
     }
 
-    public void saveTeacher(TeacherForm teacherForm) {
+    public boolean saveTeacher(TeacherForm teacherForm) {
 
         User newUser = new User();
         Teacher newTeacher = new Teacher();
@@ -32,13 +32,17 @@ public class TeacherService {
         newUser.setLastName(teacherForm.getLastName());
         newUser.setEmail(teacherForm.getEmail());
         newUser.setActive(false);
-        newUser.setRole(new Role(2, "TEACHER"));
+        newUser.setRole(new Role(2, "Teacher"));
 
-        userService.saveNewUserWithRandomPassword(newUser);
+        if (!userService.saveNewUserWithRandomPassword(newUser)) {
+            return false;
+        }
 
         newTeacher.setUser(newUser);
         newTeacher.setSpecialization(teacherForm.getTeachingSubject());
 
         teacherRepository.save(newTeacher);
+
+        return true;
     }
 }
