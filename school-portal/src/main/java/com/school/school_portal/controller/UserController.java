@@ -29,7 +29,7 @@ public class UserController {
 
         model.addAttribute("classes", classService.getClassesForCurrentUser());
         model.addAttribute("classService", classService);
-        model.addAttribute("userRole", SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().orElse(null));
+        model.addAttribute("userRole", (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().orElse(null)).toString());
 
         return "dashboard";
     }
