@@ -2,13 +2,26 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Navbar Fragment</title>
+    <link rel="stylesheet" th:href="@{/assets/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900">
 </head>
 <body>
-    <nav>
-        <span th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}"></span>
-        <!--
-        <span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
-         -->
+    <nav th:fragment="navbar" class="navbar navbar-expand-md mb-4" style="background: rgba(35,191,79,0.86);border-bottom-width: 11px;border-bottom-color: var(--bs-primary);display: flex;">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/}" style="font-weight: bold;color: #161a1e;">Spring School</a>
+            <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+                <span class="visually-hidden">Toggle navigation</span>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navcol-1">
+                <div th:if="${currentUser.role.name == 'Admin'}" class="navbar-buttons">
+                    <button class="btn btn-primary me-2" onclick="window.location.href='/admin/add-class'">Add Class</button>
+                    <button class="btn btn-primary me-2" onclick="window.location.href='/admin/add-teacher'">Add Teacher</button>
+                </div>
+                <span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
+                <button class="btn btn-primary ms-4" onclick="window.location.href='/logout'">Log out</button>
+            </div>
+        </div>
     </nav>
 </body>
 </html>
