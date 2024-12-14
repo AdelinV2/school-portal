@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -52,5 +53,11 @@ public class ClassController {
         return "redirect:/";
     }
 
+    @GetMapping("/admin/class/{id}")
+    public String getClassDetails(@PathVariable Integer id, Model model) {
 
+        model.addAttribute("class", classService.getClassById(id));
+
+        return "class/class-info";
+    }
 }
