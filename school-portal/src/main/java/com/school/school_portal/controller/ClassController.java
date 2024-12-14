@@ -54,7 +54,15 @@ public class ClassController {
     }
 
     @GetMapping("/admin/class/{id}")
-    public String getClassDetails(@PathVariable Integer id, Model model) {
+    public String getClassDetailsForAdmin(@PathVariable Integer id, Model model) {
+
+        model.addAttribute("class", classService.getClassById(id));
+
+        return "class/class-info";
+    }
+
+    @GetMapping("/teacher/class/{id}")
+    public String getClassDetailsForTeacher(@PathVariable Integer id, Model model) {
 
         model.addAttribute("class", classService.getClassById(id));
 
