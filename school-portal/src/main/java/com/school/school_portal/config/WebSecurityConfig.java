@@ -35,9 +35,9 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/login").permitAll();
             auth.requestMatchers("/assets/**").permitAll();
-            auth.requestMatchers("/admin/**").hasRole("Admin");
-            auth.requestMatchers("/teacher/**").hasAnyRole("Admin", "Teacher");
-            auth.requestMatchers("/student/**").hasAnyRole("Admin", "Teacher", "Student");
+            auth.requestMatchers("/admin/**").hasAuthority("Admin");
+            auth.requestMatchers("/teacher/**").hasAnyAuthority("Admin", "Teacher");
+            auth.requestMatchers("/student/**").hasAnyAuthority("Admin", "Teacher", "Student");
             auth.anyRequest().authenticated();
         });
 
