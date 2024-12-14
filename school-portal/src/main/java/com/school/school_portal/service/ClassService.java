@@ -3,12 +3,19 @@ package com.school.school_portal.service;
 import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.entity.Class;
+import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.ClassRepository;
+import com.school.school_portal.repository.StudentRepository;
 import com.school.school_portal.repository.TeacherRepository;
+import com.school.school_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,14 +24,18 @@ public class ClassService {
 
     private final TeacherRepository teacherRepository;
     private final ClassRepository classRepository;
+    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
-    public ClassService(TeacherRepository teacherRepository, ClassRepository classRepository) {
+    public ClassService(TeacherRepository teacherRepository, ClassRepository classRepository, UserRepository userRepository, StudentRepository studentRepository) {
         this.teacherRepository = teacherRepository;
         this.classRepository = classRepository;
+        this.userRepository = userRepository;
+        this.studentRepository = studentRepository;
     }
 
-    public List<String> getAllClasses() {
+    public List<String> getAllClassesSubjects() {
         return Arrays.asList("Natural Science", "Social Science", "Computer Science", "Economics");
     }
 
@@ -36,7 +47,7 @@ public class ClassService {
         return Arrays.asList("A", "B", "C", "D", "E", "F", "G", "H");
     }
 
-    public List<String> getAllTutors() {
+    public List<String> getAllAvailableTutors() {
 
         List<Teacher> allTeachers = teacherRepository.findAll();
         List<Teacher> assignedTutors = classRepository.findAll().stream().map(Class::getTutor).toList();
@@ -60,5 +71,32 @@ public class ClassService {
         teacherRepository.findByUser_FirstNameAndUser_LastName(firstName, lastName).ifPresent(newClass::setTutor);
 
         classRepository.save(newClass);
+    }
+
+    public List<Class> getClassesForCurrentUser() {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            User currentUser = userRepository.findByEmail(userDetails.getUsername()).orElse(null);
+
+            if (currentUser != null) {
+
+                if (currentUser.getRole().getName().equals("Admin")) {
+                    return classRepository.findAll();
+                } else if (currentUser.getRole().getName().equals("Teacher")) {
+                    return classRepository.findByTeacherUserEmail(currentUser.getEmail());
+                }
+            }
+        }
+
+        return Collections.emptyList();
+    }
+
+    public int getNumberOfStudentsInClass(Integer classId) {
+
+        return studentRepository.countByClassField_Id(classId);
     }
 }
