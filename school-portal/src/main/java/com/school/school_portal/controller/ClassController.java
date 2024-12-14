@@ -1,6 +1,8 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.ClassForm;
+import com.school.school_portal.entity.ClassCourse;
+import com.school.school_portal.service.ClassCourseService;
 import com.school.school_portal.service.ClassService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +18,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ClassController {
 
     private final ClassService classService;
+    private final ClassCourseService classCourseService;
 
     @Autowired
-    public ClassController(ClassService classService) {
+    public ClassController(ClassService classService, ClassCourseService classCourseService) {
         this.classService = classService;
+        this.classCourseService = classCourseService;
     }
 
     @GetMapping("/admin/add-class")
@@ -53,18 +57,11 @@ public class ClassController {
         return "redirect:/";
     }
 
-    @GetMapping("/admin/class/{id}")
-    public String getClassDetailsForAdmin(@PathVariable Integer id, Model model) {
+    @GetMapping({"/admin/class/{id}", "/teacher/class/{id}"})
+    public String getClassDetails(@PathVariable Integer id, Model model) {
 
         model.addAttribute("class", classService.getClassById(id));
-
-        return "class/class-info";
-    }
-
-    @GetMapping("/teacher/class/{id}")
-    public String getClassDetailsForTeacher(@PathVariable Integer id, Model model) {
-
-        model.addAttribute("class", classService.getClassById(id));
+        model.addAttribute("classCourses", classCourseService.getClassCoursesByClassId(id));
 
         return "class/class-info";
     }
