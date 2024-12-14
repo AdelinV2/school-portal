@@ -29,15 +29,18 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
             if (authority.getAuthority().equals("Admin")) {
 
-                redirectUrl = "/admin";
+                redirectUrl = "/";
+
                 break;
             } else if (authority.getAuthority().equals("Teacher")) {
 
-                redirectUrl = "/teacher";
+                redirectUrl = "/";
+
                 break;
             } else if (authority.getAuthority().equals("Student")) {
 
-                redirectUrl = "/student";
+                redirectUrl = "/";
+
                 break;
             }
         }
