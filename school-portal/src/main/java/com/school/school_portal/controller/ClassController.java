@@ -25,10 +25,10 @@ public class ClassController {
     public String showAddClassForm(Model model) {
 
         model.addAttribute("classForm", new ClassForm());
-        model.addAttribute("classes", classService.getAllClasses());
+        model.addAttribute("classes", classService.getAllClassesSubjects());
         model.addAttribute("years", classService.getAllYears());
         model.addAttribute("sections", classService.getAllSections());
-        model.addAttribute("tutors", classService.getAllTutors());
+        model.addAttribute("tutors", classService.getAllAvailableTutors());
 
         return "add/add-class";
     }
@@ -37,14 +37,20 @@ public class ClassController {
     public String addClass(@Valid ClassForm classForm, BindingResult bindingResult, Model model) {
 
         if (bindingResult.hasErrors()) {
+
             model.addAttribute("classForm", classForm);
-            model.addAttribute("classes", classService.getAllClasses());
+            model.addAttribute("classes", classService.getAllClassesSubjects());
             model.addAttribute("years", classService.getAllYears());
             model.addAttribute("sections", classService.getAllSections());
-            model.addAttribute("tutors", classService.getAllTutors());
+            model.addAttribute("tutors", classService.getAllAvailableTutors());
+
             return "add/add-class";
         }
 
-        return "redirect:/admin/classes";
+        classService.saveClass(classForm);
+
+        return "redirect:/";
     }
+
+
 }
