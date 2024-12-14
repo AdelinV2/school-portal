@@ -11,4 +11,7 @@ public interface ClassRepository extends JpaRepository<Class, Integer> {
 
     @Query("SELECT DISTINCT c.classField FROM ClassCourse c WHERE c.course.teacher.user.email = :email")
     List<Class> findByTeacherUserEmail(@Param("email") String email);
+
+    @Query("SELECT c FROM Class c WHERE c.tutor.user.email = :email")
+    List<Class> findByTutorUserEmail(@Param("email") String email);
 }
