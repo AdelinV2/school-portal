@@ -85,9 +85,14 @@ public class ClassService {
             if (currentUser != null) {
 
                 if (currentUser.getRole().getName().equals("Admin")) {
+
                     return classRepository.findAll();
                 } else if (currentUser.getRole().getName().equals("Teacher")) {
-                    return classRepository.findByTeacherUserEmail(currentUser.getEmail());
+
+                    List<Class> classes = classRepository.findByTeacherUserEmail(currentUser.getEmail());
+                    classes.addAll(classRepository.findByTutorUserEmail(currentUser.getEmail()));
+
+                    return classes.stream().distinct().collect(Collectors.toList());
                 }
             }
         }
