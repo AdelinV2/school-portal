@@ -99,4 +99,8 @@ public class ClassService {
 
         return studentRepository.countByClassField_Id(classId);
     }
+
+    public Class getClassById(Integer id) {
+        return classRepository.findById(id).orElse(null);
+    }
 }
