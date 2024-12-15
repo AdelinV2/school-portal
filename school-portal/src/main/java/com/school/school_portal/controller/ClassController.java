@@ -1,6 +1,7 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.ClassForm;
+import com.school.school_portal.dto.StudentForm;
 import com.school.school_portal.service.ClassCourseService;
 import com.school.school_portal.service.ClassService;
 import com.school.school_portal.service.StudentService;
@@ -77,5 +78,39 @@ public class ClassController {
         // TODO add support for overall grade and unexcused absences and complete class-info.html
 
         return "class/class-students";
+    }
+
+    @GetMapping("/admin/add-student/{classId}")
+    public String showAddStudentForm(@PathVariable Integer classId, Model model) {
+
+        model.addAttribute("class", classService.getClassById(classId));
+        model.addAttribute("studentForm", new StudentForm());
+
+        return "add/add-student";
+    }
+
+    @PostMapping("/admin/add-student/{classId}")
+    public String addStudent(@PathVariable Integer classId, @Valid StudentForm studentForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("class", classService.getClassById(classId));
+            model.addAttribute("studentForm", studentForm);
+
+            return "add/add-student";
+        }
+
+        if (!studentService.saveStudent(studentForm, classId)) {
+
+            studentForm.setEmail(null);
+
+            model.addAttribute("class", classService.getClassById(classId));
+            model.addAttribute("studentForm", studentForm);
+            model.addAttribute("error", "Email already exists");
+
+            return "add/add-student";
+        }
+
+        return "redirect:/admin/students/" + classId;
     }
 }
