@@ -27,12 +27,15 @@
 <body style="min-height: 740px;display: flex;flex-direction: column;background: var(--bs-secondary-bg);">
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <div class="container-fluid" style="min-height: 80.9vh;">
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-6">
-            <h3 class="text-dark mb-4">Class <span th:text="${class.year}"/>-<span th:text="${class.section}"/></h3>
+    <div class="row d-flex align-items-center" style="margin-bottom: 30px">
+        <div class="col-12 col-sm-6 col-md-6 d-flex">
+            <h3 class="text-dark mb-0">Class <span th:text="${class.year}"/>-<span th:text="${class.section}"/></h3>
+            <a class="card-link ms-3" data-bss-hover-animate="pulse"
+               th:href="@{'/admin/students/' + ${class.id}}"
+               style="padding: 4px;background: #b86868;color: rgb(255,255,255);border-radius: 17px;padding-right: 14px;padding-left: 14px;padding-bottom: 6px;font-family: 'Source Sans Pro', sans-serif;">See students</a>
         </div>
-        <div class="col-12 col-sm-6 col-md-6 text-end" style="margin-bottom: 30px;">
-                <a class="btn btn-primary" th:href="@{'/admin/add-course/' + ${class.id}}" role="button">Add New Course</a>
+        <div class="col-12 col-sm-6 col-md-6 d-flex justify-content-end">
+            <a class="btn btn-primary" th:href="@{'/admin/add-course/' + ${class.id}}" role="button">Add New Course</a>
         </div>
     </div>
     <div class="card" id="TableSorterCard">
