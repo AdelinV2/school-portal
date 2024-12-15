@@ -19,10 +19,6 @@ public class Course {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Lob
-    @Column(name = "description")
-    private String description;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -35,7 +31,6 @@ public class Course {
     public Course(Integer id, String name, String description, Teacher teacher) {
         this.id = id;
         this.name = name;
-        this.description = description;
         this.teacher = teacher;
     }
 
@@ -53,14 +48,6 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public Teacher getTeacher() {
