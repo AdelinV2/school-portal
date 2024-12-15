@@ -1,9 +1,9 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.ClassForm;
-import com.school.school_portal.entity.ClassCourse;
 import com.school.school_portal.service.ClassCourseService;
 import com.school.school_portal.service.ClassService;
+import com.school.school_portal.service.StudentService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,11 +19,13 @@ public class ClassController {
 
     private final ClassService classService;
     private final ClassCourseService classCourseService;
+    private final StudentService studentService;
 
     @Autowired
-    public ClassController(ClassService classService, ClassCourseService classCourseService) {
+    public ClassController(ClassService classService, ClassCourseService classCourseService, StudentService studentService) {
         this.classService = classService;
         this.classCourseService = classCourseService;
+        this.studentService = studentService;
     }
 
     @GetMapping("/admin/add-class")
@@ -57,12 +59,23 @@ public class ClassController {
         return "redirect:/";
     }
 
-    @GetMapping({"/admin/class/{id}", "/teacher/class/{id}"})
+    @GetMapping("/admin/class/{id}")
     public String getClassDetails(@PathVariable Integer id, Model model) {
 
         model.addAttribute("class", classService.getClassById(id));
         model.addAttribute("classCourses", classCourseService.getClassCoursesByClassId(id));
 
         return "class/class-info";
+    }
+
+    @GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
+    public String showStudentsInClass(@PathVariable Integer classId, Model model) {
+
+        model.addAttribute("class", classService.getClassById(classId));
+        model.addAttribute("students", studentService.getStudentsByClassId(classId));
+
+        // TODO add support for overall grade and unexcused absences and complete class-info.html
+
+        return "class/class-students";
     }
 }
