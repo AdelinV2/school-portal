@@ -24,4 +24,8 @@ public class ClassCourseService {
     public ClassCourse getClassCourseByCourseId(Integer courseId) {
         return classCourseRepository.findByCourseId(courseId);
     }
+
+    public List<Integer> getClassCourseIdsByClassId(Integer classId) {
+        return classCourseRepository.findCourseIdsByClassField_Id(classId);
+    }
 }
