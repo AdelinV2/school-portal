@@ -7,6 +7,8 @@ import com.school.school_portal.repository.GradeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class GradeService {
 
@@ -31,5 +33,9 @@ public class GradeService {
         newGrade.setDateAssigned(gradeForm.getDateAssigned());
 
         gradeRepository.save(newGrade);
+    }
+
+    public List<Grade> getGradesByStudentIdAndClassCourseId(Integer studentId, Integer classCourseId) {
+        return gradeRepository.findAllByStudent_IdAndClassCourse_Id(studentId, classCourseId);
     }
 }
