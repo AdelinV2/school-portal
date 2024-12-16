@@ -2,38 +2,40 @@ package com.school.school_portal.dto;
 
 import jakarta.validation.constraints.NotEmpty;
 
+import java.time.LocalDate;
+
 public class AbsenceForm {
 
     @NotEmpty
-    private String studentId;
+    private Integer studentId;
 
     @NotEmpty
-    private String classCourseId;
+    private Integer classCourseId;
 
     @NotEmpty
-    private String absenceDate;
+    private LocalDate absenceDate;
 
-    public String getStudentId() {
+    public Integer getStudentId() {
         return studentId;
     }
 
-    public void setStudentId(String studentId) {
+    public void setStudentId(Integer studentId) {
         this.studentId = studentId;
     }
 
-    public String getClassCourseId() {
+    public Integer getClassCourseId() {
         return classCourseId;
     }
 
-    public void setClassCourseId(String classCourseId) {
+    public void setClassCourseId(Integer classCourseId) {
         this.classCourseId = classCourseId;
     }
 
-    public String getAbsenceDate() {
+    public LocalDate getAbsenceDate() {
         return absenceDate;
     }
 
-    public void setAbsenceDate(String absenceDate) {
+    public void setAbsenceDate(LocalDate absenceDate) {
         this.absenceDate = absenceDate;
     }
 }
