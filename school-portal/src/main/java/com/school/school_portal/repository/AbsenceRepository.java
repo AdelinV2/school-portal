@@ -8,4 +8,8 @@ import java.util.List;
 public interface AbsenceRepository extends JpaRepository<Absence, Integer> {
 
     List<Absence> findByStudent_IdAndExcused(Integer studentId, boolean excused);
+
+    List<Absence> findByStudent_IdAndClassCourse_IdAndExcused(Integer studentId, Integer classCourseId, boolean excused);
+
+    List<Absence> findByStudent_IdAndClassCourse_Id(Integer studentId, Integer classCourseId);
 }
