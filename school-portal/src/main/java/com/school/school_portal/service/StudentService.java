@@ -50,4 +50,8 @@ public class StudentService {
 
         return true;
     }
+
+    public Student getStudentById(Integer studentId) {
+        return studentRepository.findById(studentId).orElse(null);
+    }
 }
