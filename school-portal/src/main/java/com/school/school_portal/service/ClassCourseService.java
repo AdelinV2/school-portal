@@ -20,4 +20,8 @@ public class ClassCourseService {
     public List<ClassCourse> getClassCoursesByClassId(Integer classId) {
         return classCourseRepository.findByClassFieldId(classId);
     }
+
+    public ClassCourse getClassCourseByCourseId(Integer courseId) {
+        return classCourseRepository.findByCourseId(courseId);
+    }
 }
