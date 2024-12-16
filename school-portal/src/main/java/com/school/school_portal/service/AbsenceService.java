@@ -41,4 +41,16 @@ public class AbsenceService {
     public List<Absence> getTotalExcusedAbsencesByStudentId(Integer studentId) {
         return absenceRepository.findByStudent_IdAndExcused(studentId, true);
     }
+
+    public List<Absence> getUnexcusedAbsencesByStudentIdAndClassCourseId(Integer studentId, Integer classCourseId) {
+        return absenceRepository.findByStudent_IdAndClassCourse_IdAndExcused(studentId, classCourseId, false);
+    }
+
+    public List<Absence> getExcusedAbsencesByStudentIdAndClassCourseId(Integer studentId, Integer classCourseId) {
+        return absenceRepository.findByStudent_IdAndClassCourse_IdAndExcused(studentId, classCourseId, true);
+    }
+
+    public List<Absence> getAllAbsencesByStudentIdAndClassCourseId(Integer studentId, Integer classCourseId) {
+        return absenceRepository.findByStudent_IdAndClassCourse_Id(studentId, classCourseId);
+    }
 }
