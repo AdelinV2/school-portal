@@ -35,11 +35,11 @@
                     <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Teacher
                         name</label></div>
                     <div class="col-sm-6 input-column">
-                        <select class="form-select" th:field="*{subject}">
-                            <option value="" selected disabled>Select a subject area</option>
-                            <option th:each="subject : ${subjects}" th:value="${subject}" th:text="${subject}"></option>
+                        <select class="form-select" th:field="*{teachers}">
+                            <option value="" selected disabled>Select a teacher</option>
+                            <option th:each="teacher : ${teachers}" th:value="${teacher}" th:text="${teacher}"></option>
                         </select>
-                        <div th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}" class="text-danger"></div>
+                        <div th:if="${#fields.hasErrors('teachers')}" th:errors="*{teachers}" class="text-danger"></div>
                     </div>
                     <button class="btn btn-light submit-button" type="button">Submit</button>
             </form>
