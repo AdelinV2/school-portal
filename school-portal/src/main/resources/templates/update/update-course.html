@@ -28,21 +28,21 @@
 <div class="container" style="min-height: 80.9vh;">
     <div class="row register-form">
         <div class="col-md-8 offset-md-2">
-            <form class="custom-form">
-                <h1>Edit <span th:text="${courseForm.subject}"/>teacher from Course<span
-                        th:text="${courseForm.subject}"/></h1>
+            <form class="custom-form" th:action="@{/admin/edit-course/{id}(id=${id})}" th:object="${courseForm}"
+                  method="post">
+                <h1>Edit teacher from Course <span th:text="${courseForm.subject}"/></h1>
                 <div class="row form-group">
-                    <div class="col-sm-4 label-column"><label class="col-form-label" for="name-input-field">Teacher
-                        name</label></div>
+                    <div class="col-sm-4 label-column"><label class="col-form-label" for="teachers">Teacher name</label>
+                    </div>
                     <div class="col-sm-6 input-column">
-                        <select class="form-select" th:field="*{teachers}">
+                        <select class="form-select" id="teachers" th:field="*{teacher}">
                             <option value="" selected disabled>Select a teacher</option>
                             <option th:each="teacher : ${teachers}" th:value="${teacher}" th:text="${teacher}"></option>
                         </select>
-                        <div th:if="${#fields.hasErrors('teachers')}" th:errors="*{teachers}" class="text-danger"></div>
+                        <div th:if="${#fields.hasErrors('teacher')}" th:errors="*{teacher}" class="text-danger"></div>
                     </div>
-                    <button class="btn btn-light submit-button" type="button">Submit</button>
                 </div>
+                <button class="btn btn-light submit-button" type="submit">Submit</button>
             </form>
         </div>
     </div>
