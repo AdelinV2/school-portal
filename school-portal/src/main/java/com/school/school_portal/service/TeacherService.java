@@ -8,6 +8,7 @@ import com.school.school_portal.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,7 @@ public class TeacherService {
 
         String[] nameParts = fullName.split(" ");
         String lastName = nameParts[nameParts.length - 1];
-        String firstName = String.join(" ", nameParts);
+        String firstName = String.join(" ", Arrays.copyOf(nameParts, nameParts.length - 1));
 
         return teacherRepository.findByUser_FirstNameAndUser_LastName(firstName, lastName);
     }
