@@ -1,5 +1,6 @@
 package com.school.school_portal.service;
 
+import com.school.school_portal.entity.Class;
 import com.school.school_portal.entity.ClassCourse;
 import com.school.school_portal.repository.ClassCourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,9 @@ public class ClassCourseService {
 
     public List<Integer> getClassCourseIdsByClassId(Integer classId) {
         return classCourseRepository.findCourseIdsByClassField_Id(classId);
+    }
+
+    public Class getClassByCourseId(Integer courseId) {
+        return classCourseRepository.findByCourseId(courseId).getClassField();
     }
 }
