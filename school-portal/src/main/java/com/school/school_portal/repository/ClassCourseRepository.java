@@ -1,8 +1,9 @@
 package com.school.school_portal.repository;
 
 import com.school.school_portal.entity.ClassCourse;
-import org.springframework.data.domain.Limit;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -12,5 +13,6 @@ public interface ClassCourseRepository extends JpaRepository<ClassCourse, Intege
 
     ClassCourse findByCourseId(Integer courseId);
 
-    List<Integer> findCourseIdsByClassField_Id(Integer classFieldId);
+    @Query("SELECT c.course.id FROM ClassCourse c WHERE c.classField.id = :classFieldId")
+    List<Integer> findCourseIdsByClassField_Id(@Param("classFieldId") Integer classFieldId);
 }
