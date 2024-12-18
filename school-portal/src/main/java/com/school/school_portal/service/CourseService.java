@@ -18,14 +18,14 @@ import java.util.List;
 public class CourseService {
 
     private final CourseRepository courseRepository;
-    private final TeacherRepository teacherRepository;
+    private final TeacherService teacherService;
     private final ClassCourseRepository classCourseRepository;
     private final ClassRepository classRepository;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository, TeacherRepository teacherRepository, ClassCourseRepository classCourseRepository, ClassRepository classRepository) {
+    public CourseService(CourseRepository courseRepository, TeacherService teacherService, ClassCourseRepository classCourseRepository, ClassRepository classRepository) {
         this.courseRepository = courseRepository;
-        this.teacherRepository = teacherRepository;
+        this.teacherService = teacherService;
         this.classCourseRepository = classCourseRepository;
         this.classRepository = classRepository;
     }
@@ -37,21 +37,13 @@ public class CourseService {
                 "Art", "Music", "Business Studies", "French", "Spanish", "German");
     }
 
-    public List<String> getAllTeachers() {
-        return teacherRepository.findAll().stream().map(teacher -> teacher.getUser().getFullName()).toList();
-    }
-
     public void saveCourse(@Valid CourseForm courseForm, Integer classId) {
 
         Course newCourse = new Course();
 
         newCourse.setName(courseForm.getSubject());
 
-        String[] teacherNameParts = courseForm.getTeacher().split(" ");
-        String teacherLastName = teacherNameParts[teacherNameParts.length - 1];
-        String teacherFirstName = String.join(" ", Arrays.copyOf(teacherNameParts, teacherNameParts.length - 1));
-
-        teacherRepository.findByUser_FirstNameAndUser_LastName(teacherFirstName, teacherLastName).ifPresent(newCourse::setTeacher);
+        teacherService.getTeacherByFullName(courseForm.getTeacher()).ifPresent(newCourse::setTeacher);
 
         courseRepository.save(newCourse);
 
@@ -61,5 +53,15 @@ public class CourseService {
         newClassCourse.setCourse(newCourse);
 
         classCourseRepository.save(newClassCourse);
+    }
+
+    public void updateCourse(@Valid CourseForm courseForm, Integer id) {
+
+        Course course = courseRepository.findById(id).get();
+
+        course.setName(courseForm.getSubject());
+        teacherService.getTeacherByFullName(courseForm.getTeacher()).ifPresent(course::setTeacher);
+
+        courseRepository.save(course);
     }
 }
