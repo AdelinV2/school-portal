@@ -6,7 +6,6 @@ import com.school.school_portal.entity.Course;
 import com.school.school_portal.repository.ClassCourseRepository;
 import com.school.school_portal.repository.ClassRepository;
 import com.school.school_portal.repository.CourseRepository;
-import com.school.school_portal.repository.TeacherRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,8 +58,9 @@ public class CourseService {
 
         Course course = courseRepository.findById(id).get();
 
+        course.setId(id);
         course.setName(courseForm.getSubject());
-        teacherService.getTeacherByFullName(courseForm.getTeacher()).ifPresent(course::setTeacher);
+        course.setTeacher(teacherService.getTeacherByFullName(courseForm.getTeacher()).get());
 
         courseRepository.save(course);
     }
