@@ -45,6 +45,10 @@ public class GradeService {
         List<Grade> grades = getGradesByStudentIdAndClassCourseId(studentId, classCourseId);
         BigDecimal avg = new BigDecimal(0);
 
+        if (grades.isEmpty()) {
+            return avg;
+        }
+
         for (Grade grade : grades) {
             avg = avg.add(grade.getGrade());
         }
