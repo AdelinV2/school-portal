@@ -2,9 +2,8 @@ package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.dto.StudentForm;
-import com.school.school_portal.service.ClassCourseService;
-import com.school.school_portal.service.ClassService;
-import com.school.school_portal.service.StudentService;
+import com.school.school_portal.entity.Student;
+import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Controller
 public class ClassController {
@@ -21,12 +24,16 @@ public class ClassController {
     private final ClassService classService;
     private final ClassCourseService classCourseService;
     private final StudentService studentService;
+    private final GradeService gradeService;
+    private final AbsenceService absenceService;
 
     @Autowired
-    public ClassController(ClassService classService, ClassCourseService classCourseService, StudentService studentService) {
+    public ClassController(ClassService classService, ClassCourseService classCourseService, StudentService studentService, GradeService gradeService, AbsenceService absenceService) {
         this.classService = classService;
         this.classCourseService = classCourseService;
         this.studentService = studentService;
+        this.gradeService = gradeService;
+        this.absenceService = absenceService;
     }
 
     @GetMapping("/admin/add-class")
@@ -69,16 +76,24 @@ public class ClassController {
         return "class/class-info";
     }
 
-    @GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
-    public String showStudentsInClass(@PathVariable Integer classId, Model model) {
+@GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
+public String showStudentsInClass(@PathVariable Integer classId, Model model) {
 
-        model.addAttribute("class", classService.getClassById(classId));
-        model.addAttribute("students", studentService.getStudentsByClassId(classId));
+    Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+    Map<Integer, Long> unexcusedAbsences = new HashMap<>();
 
-        // TODO add support for overall grade and unexcused absences and complete class-info.html
-
-        return "class/class-students";
+    for (Student student : studentService.getStudentsByClassId(classId)) {
+        overallGrades.put(student.getId(), gradeService.getTotalAverageGradeByStudentId(student.getId()));
+        unexcusedAbsences.put(student.getId(), absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).stream().count());
     }
+
+    model.addAttribute("class", classService.getClassById(classId));
+    model.addAttribute("students", studentService.getStudentsByClassId(classId));
+    model.addAttribute("overallGrades", overallGrades);
+    model.addAttribute("unexcusedAbsences", unexcusedAbsences);
+
+    return "class/class-students";
+}
 
     @GetMapping("/admin/add-student/{classId}")
     public String showAddStudentForm(@PathVariable Integer classId, Model model) {
