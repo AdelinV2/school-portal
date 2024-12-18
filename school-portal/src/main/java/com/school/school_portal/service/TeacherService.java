@@ -5,21 +5,21 @@ import com.school.school_portal.entity.Role;
 import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.TeacherRepository;
-import com.school.school_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TeacherService {
 
     private final TeacherRepository teacherRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
 
     @Autowired
-    public TeacherService(TeacherRepository teacherRepository, UserRepository userRepository, UserService userService) {
+    public TeacherService(TeacherRepository teacherRepository, UserService userService) {
         this.teacherRepository = teacherRepository;
-        this.userRepository = userRepository;
         this.userService = userService;
     }
 
@@ -44,5 +44,18 @@ public class TeacherService {
         teacherRepository.save(newTeacher);
 
         return true;
+    }
+
+    public Optional<Teacher> getTeacherByFullName(String fullName) {
+
+        String[] nameParts = fullName.split(" ");
+        String lastName = nameParts[nameParts.length - 1];
+        String firstName = String.join(" ", nameParts);
+
+        return teacherRepository.findByUser_FirstNameAndUser_LastName(firstName, lastName);
+    }
+
+    public List<String> getAllTeachers() {
+        return teacherRepository.findAll().stream().map(teacher -> teacher.getUser().getFullName()).toList();
     }
 }
