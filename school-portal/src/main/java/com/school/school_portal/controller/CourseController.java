@@ -1,6 +1,7 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.CourseForm;
+import com.school.school_portal.service.ClassCourseService;
 import com.school.school_portal.service.ClassService;
 import com.school.school_portal.service.CourseService;
 import com.school.school_portal.service.TeacherService;
@@ -19,12 +20,14 @@ public class CourseController {
     private final CourseService courseService;
     private final ClassService classService;
     private final TeacherService teacherService;
+    private final ClassCourseService classCourseService;
 
     @Autowired
-    public CourseController(CourseService courseService, ClassService classService, TeacherService teacherService) {
+    public CourseController(CourseService courseService, ClassService classService, TeacherService teacherService, ClassCourseService classCourseService) {
         this.courseService = courseService;
         this.classService = classService;
         this.teacherService = teacherService;
+        this.classCourseService = classCourseService;
     }
 
     @GetMapping("/admin/add-course/{id}")
@@ -60,6 +63,7 @@ public class CourseController {
 
         model.addAttribute("courseForm", courseForm);
         model.addAttribute("teachers", teacherService.getAllTeachers());
+        model.addAttribute("class", classCourseService.getClassByCourseId(id));
 
         return "update/update-course";
     }
@@ -77,6 +81,8 @@ public class CourseController {
 
         courseService.updateCourse(courseForm, id);
 
-        return "redirect:/admin/class/{id}";
+        Integer classId = classCourseService.getClassCourseByCourseId(id).getId();
+
+        return "redirect:/admin/class/{classId}";
     }
 }
