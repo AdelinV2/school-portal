@@ -50,16 +50,20 @@ public class CourseController {
             model.addAttribute("subjects", courseService.getAllCoursesSubjects());
             model.addAttribute("teachers", teacherService.getAllTeachers());
 
-            return "add/add-course/{id}";
+            return "add/add-course/" + id;
         }
 
         courseService.saveCourse(courseForm, id);
 
-        return "redirect:/admin/class/{id}";
+        return "redirect:/admin/class/" + id;
     }
 
     @GetMapping("/admin/edit-course/{id}")
-    public String showEditCourseForm(@PathVariable Integer id, CourseForm courseForm, Model model) {
+    public String showEditCourseForm(@PathVariable Integer id, Model model) {
+
+        CourseForm courseForm = new CourseForm();
+
+        courseForm.setSubject(classCourseService.getClassCourseByCourseId(id).getCourse().getName());
 
         model.addAttribute("courseForm", courseForm);
         model.addAttribute("teachers", teacherService.getAllTeachers());
@@ -69,12 +73,14 @@ public class CourseController {
     }
 
     @PostMapping("/admin/edit-course/{id}")
-    public String editCourse(@PathVariable Integer id, @Valid CourseForm courseForm, BindingResult bindingResult, Model model) {
+    public String editCourse(@PathVariable Integer id, CourseForm courseForm, Model model) {
 
-        if (bindingResult.hasErrors()) {
+        courseForm.setSubject(classCourseService.getClassCourseByCourseId(id).getCourse().getName());
 
+        if (courseForm.getTeacher().isEmpty()) {
             model.addAttribute("courseForm", courseForm);
             model.addAttribute("teachers", teacherService.getAllTeachers());
+            model.addAttribute("class", classCourseService.getClassByCourseId(id));
 
             return "update/update-course";
         }
@@ -83,6 +89,6 @@ public class CourseController {
 
         Integer classId = classCourseService.getClassCourseByCourseId(id).getId();
 
-        return "redirect:/admin/class/{classId}";
+        return "redirect:/admin/class/" + classId;
     }
 }
