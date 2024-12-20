@@ -59,4 +59,9 @@ public class UserService {
 
         return userRepository.findByEmail(email.toLowerCase()).isPresent();
     }
+
+    public void updateUser(User user) {
+
+        userRepository.save(user);
+    }
 }
