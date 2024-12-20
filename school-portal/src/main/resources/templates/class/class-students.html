@@ -63,10 +63,14 @@
                                    th:href="@{'/admin/student/' + ${student.id}}"><i class="far fa-eye"></i></a>
                                 <a class="btn btnMaterial btn-flat success semicircle" role="button"
                                    th:href="@{'/admin/edit-student/' + ${student.id}}"><i class="fas fa-pen"></i></a>
-                                <a class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button"
-                                   style="margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#delete-modal"
-                                   th:href="@{'/admin/delete-student/' + ${student.id}}"><i
-                                        class="fas fa-trash btnNoBorders" style="color: #DC3545;"></i></a>
+                                <form th:action="@{'/admin/delete-student/' + ${student.id}}" method="post"
+                                      style="display:inline;">
+                                    <button type="submit"
+                                            class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover"
+                                            onclick="return confirm('Are you sure you want to delete this student?');">
+                                        <i class="fas fa-trash btnNoBorders" style="color: #DC3545;"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         </tbody>
