@@ -72,4 +72,9 @@ public class StudentService {
 
         userService.updateUser(user);
     }
+
+    public void deleteStudent(Integer studentId) {
+
+        userService.deleteUser(studentRepository.findById(studentId).orElse(null).getUser().getId());
+    }
 }

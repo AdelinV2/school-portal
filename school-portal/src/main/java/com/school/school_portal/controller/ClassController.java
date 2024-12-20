@@ -77,24 +77,24 @@ public class ClassController {
         return "class/class-info";
     }
 
-@GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
-public String showStudentsInClass(@PathVariable Integer classId, Model model) {
+    @GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
+    public String showStudentsInClass(@PathVariable Integer classId, Model model) {
 
-    Map<Integer, BigDecimal> overallGrades = new HashMap<>();
-    Map<Integer, Long> unexcusedAbsences = new HashMap<>();
+        Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+        Map<Integer, Long> unexcusedAbsences = new HashMap<>();
 
-    for (Student student : studentService.getStudentsByClassId(classId)) {
-        overallGrades.put(student.getId(), gradeService.getTotalAverageGradeByStudentId(student.getId()));
-        unexcusedAbsences.put(student.getId(), absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).stream().count());
+        for (Student student : studentService.getStudentsByClassId(classId)) {
+            overallGrades.put(student.getId(), gradeService.getTotalAverageGradeByStudentId(student.getId()));
+            unexcusedAbsences.put(student.getId(), absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).stream().count());
+        }
+
+        model.addAttribute("class", classService.getClassById(classId));
+        model.addAttribute("students", studentService.getStudentsByClassId(classId));
+        model.addAttribute("overallGrades", overallGrades);
+        model.addAttribute("unexcusedAbsences", unexcusedAbsences);
+
+        return "class/class-students";
     }
-
-    model.addAttribute("class", classService.getClassById(classId));
-    model.addAttribute("students", studentService.getStudentsByClassId(classId));
-    model.addAttribute("overallGrades", overallGrades);
-    model.addAttribute("unexcusedAbsences", unexcusedAbsences);
-
-    return "class/class-students";
-}
 
     @GetMapping("/admin/add-student/{classId}")
     public String showAddStudentForm(@PathVariable Integer classId, Model model) {
@@ -139,7 +139,7 @@ public String showStudentsInClass(@PathVariable Integer classId, Model model) {
         studentForm.setLastName(studentService.getStudentById(studentId).getUser().getLastName());
         studentForm.setEmail(studentService.getStudentById(studentId).getUser().getEmail());
 
-        model.addAttribute("class" , studentService.getStudentById(studentId).getClassField());
+        model.addAttribute("class", studentService.getStudentById(studentId).getClassField());
         model.addAttribute("studentForm", studentForm);
 
         return "update/update-student";
@@ -161,31 +161,40 @@ public String showStudentsInClass(@PathVariable Integer classId, Model model) {
         return "redirect:/admin/students/" + studentService.getStudentById(studentId).getClassField().getId();
     }
 
-@GetMapping("/admin/student/{studentId}")
-public String showStudentDetails(@PathVariable Integer studentId, Model model) {
+    @GetMapping("/admin/student/{studentId}")
+    public String showStudentDetails(@PathVariable Integer studentId, Model model) {
 
-    Student student = studentService.getStudentById(studentId);
-    Integer classId = student.getClassField().getId();
+        Student student = studentService.getStudentById(studentId);
+        Integer classId = student.getClassField().getId();
 
-    Map<Integer, Long> unexcusedAbsences = new HashMap<>();
-    Map<Integer, Long> excusedAbsences = new HashMap<>();
-    Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+        Map<Integer, Long> unexcusedAbsences = new HashMap<>();
+        Map<Integer, Long> excusedAbsences = new HashMap<>();
+        Map<Integer, BigDecimal> overallGrades = new HashMap<>();
 
-    for (ClassCourse course : classCourseService.getClassCoursesByClassId(classId)) {
+        for (ClassCourse course : classCourseService.getClassCoursesByClassId(classId)) {
 
-        Integer courseId = course.getId();
-        unexcusedAbsences.put(courseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
-        excusedAbsences.put(courseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
-        overallGrades.put(courseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, courseId));
+            Integer courseId = course.getId();
+            unexcusedAbsences.put(courseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
+            excusedAbsences.put(courseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
+            overallGrades.put(courseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, courseId));
+        }
+
+        model.addAttribute("courses", classCourseService.getClassCoursesByClassId(classId));
+        model.addAttribute("student", student);
+        model.addAttribute("grades", gradeService.getGradesByStudentIdAndClassCourseId(studentId, classId));
+        model.addAttribute("unexcusedAbsences", unexcusedAbsences);
+        model.addAttribute("excusedAbsences", excusedAbsences);
+        model.addAttribute("overallGrades", overallGrades);
+
+        return "student/student-info";
     }
 
-    model.addAttribute("courses", classCourseService.getClassCoursesByClassId(classId));
-    model.addAttribute("student", student);
-    model.addAttribute("grades", gradeService.getGradesByStudentIdAndClassCourseId(studentId, classId));
-    model.addAttribute("unexcusedAbsences", unexcusedAbsences);
-    model.addAttribute("excusedAbsences", excusedAbsences);
-    model.addAttribute("overallGrades", overallGrades);
+    @PostMapping("/admin/delete-student/{studentId}")
+    public String deleteStudent(@PathVariable Integer studentId) {
 
-    return "student/student-info";
-}
+        Integer classId = studentService.getStudentById(studentId).getClassField().getId();
+        studentService.deleteStudent(studentId);
+
+        return "redirect:/admin/students/" + classId;
+    }
 }
