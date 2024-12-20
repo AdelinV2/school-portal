@@ -5,6 +5,7 @@ import com.school.school_portal.entity.Role;
 import com.school.school_portal.entity.Student;
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.StudentRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +54,22 @@ public class StudentService {
 
     public Student getStudentById(Integer studentId) {
         return studentRepository.findById(studentId).orElse(null);
+    }
+
+    public void updateStudent(Integer studentId, @Valid StudentForm studentForm) {
+
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        if(student == null) {
+            return;
+        }
+
+        User user = student.getUser();
+
+        user.setFirstName(studentForm.getFirstName());
+        user.setLastName(studentForm.getLastName());
+        user.setEmail(studentForm.getEmail());
+
+        userService.updateUser(user);
     }
 }
