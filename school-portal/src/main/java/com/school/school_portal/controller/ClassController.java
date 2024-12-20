@@ -2,6 +2,7 @@ package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.dto.StudentForm;
+import com.school.school_portal.entity.ClassCourse;
 import com.school.school_portal.entity.Student;
 import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
@@ -159,4 +160,32 @@ public String showStudentsInClass(@PathVariable Integer classId, Model model) {
 
         return "redirect:/admin/students/" + studentService.getStudentById(studentId).getClassField().getId();
     }
+
+@GetMapping("/admin/student/{studentId}")
+public String showStudentDetails(@PathVariable Integer studentId, Model model) {
+
+    Student student = studentService.getStudentById(studentId);
+    Integer classId = student.getClassField().getId();
+
+    Map<Integer, Long> unexcusedAbsences = new HashMap<>();
+    Map<Integer, Long> excusedAbsences = new HashMap<>();
+    Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+
+    for (ClassCourse course : classCourseService.getClassCoursesByClassId(classId)) {
+
+        Integer courseId = course.getId();
+        unexcusedAbsences.put(courseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
+        excusedAbsences.put(courseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
+        overallGrades.put(courseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, courseId));
+    }
+
+    model.addAttribute("courses", classCourseService.getClassCoursesByClassId(classId));
+    model.addAttribute("student", student);
+    model.addAttribute("grades", gradeService.getGradesByStudentIdAndClassCourseId(studentId, classId));
+    model.addAttribute("unexcusedAbsences", unexcusedAbsences);
+    model.addAttribute("excusedAbsences", excusedAbsences);
+    model.addAttribute("overallGrades", overallGrades);
+
+    return "student/student-info";
+}
 }
