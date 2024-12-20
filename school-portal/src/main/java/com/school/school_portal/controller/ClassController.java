@@ -128,4 +128,35 @@ public String showStudentsInClass(@PathVariable Integer classId, Model model) {
 
         return "redirect:/admin/students/" + classId;
     }
+
+    @GetMapping("/admin/edit-student/{studentId}")
+    public String showEditStudentForm(@PathVariable Integer studentId, Model model) {
+
+        StudentForm studentForm = new StudentForm();
+
+        studentForm.setFirstName(studentService.getStudentById(studentId).getUser().getFirstName());
+        studentForm.setLastName(studentService.getStudentById(studentId).getUser().getLastName());
+        studentForm.setEmail(studentService.getStudentById(studentId).getUser().getEmail());
+
+        model.addAttribute("class" , studentService.getStudentById(studentId).getClassField());
+        model.addAttribute("studentForm", studentForm);
+
+        return "update/update-student";
+    }
+
+    @PostMapping("/admin/edit-student/{studentId}")
+    public String editStudent(@PathVariable Integer studentId, @Valid StudentForm studentForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("class", studentService.getStudentById(studentId).getClassField());
+            model.addAttribute("studentForm", studentForm);
+
+            return "update/update-student";
+        }
+
+        studentService.updateStudent(studentId, studentForm);
+
+        return "redirect:/admin/students/" + studentService.getStudentById(studentId).getClassField().getId();
+    }
 }
