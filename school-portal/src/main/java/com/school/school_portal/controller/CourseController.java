@@ -1,10 +1,8 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.CourseForm;
-import com.school.school_portal.service.ClassCourseService;
-import com.school.school_portal.service.ClassService;
-import com.school.school_portal.service.CourseService;
-import com.school.school_portal.service.TeacherService;
+import com.school.school_portal.entity.*;
+import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
 @Controller
 public class CourseController {
 
@@ -21,13 +23,19 @@ public class CourseController {
     private final ClassService classService;
     private final TeacherService teacherService;
     private final ClassCourseService classCourseService;
+    private final StudentService studentService;
+    private final AbsenceService absenceService;
+    private final GradeService gradeService;
 
     @Autowired
-    public CourseController(CourseService courseService, ClassService classService, TeacherService teacherService, ClassCourseService classCourseService) {
+    public CourseController(CourseService courseService, ClassService classService, TeacherService teacherService, ClassCourseService classCourseService, StudentService studentService, AbsenceService absenceService, GradeService gradeService) {
         this.courseService = courseService;
         this.classService = classService;
         this.teacherService = teacherService;
         this.classCourseService = classCourseService;
+        this.studentService = studentService;
+        this.absenceService = absenceService;
+        this.gradeService = gradeService;
     }
 
     @GetMapping("/admin/add-course/{id}")
@@ -90,5 +98,26 @@ public class CourseController {
         Integer classId = classCourseService.getClassCourseByCourseId(id).getId();
 
         return "redirect:/admin/class/" + classId;
+    }
+
+    @GetMapping("/admin/student/{studentId}/course/{courseId}")
+    public String showStudentCourse(@PathVariable Integer studentId, @PathVariable Integer courseId, Model model) {
+
+        Integer classCourseId = classCourseService.getClassCourseByCourseId(courseId).getId();
+        Optional<Course> course = courseService.getCourseById(courseId);
+        Student student = studentService.getStudentById(studentId);
+        Teacher teacher = course.get().getTeacher();
+        List<Absence> absences = absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId);
+        List<Grade> grades = gradeService.getGradesByStudentIdAndClassCourseId(studentId, classCourseId);
+        BigDecimal avgGrade = gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, classCourseId);
+
+        model.addAttribute("student", student);
+        model.addAttribute("course", course.get());
+        model.addAttribute("teacher", teacher);
+        model.addAttribute("absences", absences);
+        model.addAttribute("grades", grades);
+        model.addAttribute("avgGrade", avgGrade);
+
+        return "course/course-info";
     }
 }
