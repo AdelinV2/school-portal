@@ -64,4 +64,8 @@ public class CourseService {
 
         courseRepository.save(course);
     }
+
+    public Object getCourseById(Integer courseId) {
+        return courseRepository.findById(courseId);
+    }
 }
