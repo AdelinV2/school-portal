@@ -19,11 +19,11 @@ public class ClassCourseService {
     }
 
     public List<ClassCourse> getClassCoursesByClassId(Integer classId) {
-        return classCourseRepository.findByClassFieldId(classId);
+        return classCourseRepository.findByClassField_Id(classId);
     }
 
     public ClassCourse getClassCourseByCourseId(Integer courseId) {
-        return classCourseRepository.findByCourseId(courseId);
+        return classCourseRepository.findByCourse_Id(courseId);
     }
 
     public List<Integer> getClassCourseIdsByClassId(Integer classId) {
@@ -31,6 +31,6 @@ public class ClassCourseService {
     }
 
     public Class getClassByCourseId(Integer courseId) {
-        return classCourseRepository.findByCourseId(courseId).getClassField();
+        return classCourseRepository.findByCourse_Id(courseId).getClassField();
     }
 }
