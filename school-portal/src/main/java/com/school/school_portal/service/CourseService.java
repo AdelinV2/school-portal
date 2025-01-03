@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CourseService {
@@ -65,7 +66,7 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public Object getCourseById(Integer courseId) {
+    public Optional<Course> getCourseById(Integer courseId) {
         return courseRepository.findById(courseId);
     }
 }
