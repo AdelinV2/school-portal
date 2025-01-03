@@ -171,12 +171,12 @@ public class ClassController {
         Map<Integer, Long> excusedAbsences = new HashMap<>();
         Map<Integer, BigDecimal> overallGrades = new HashMap<>();
 
-        for (ClassCourse course : classCourseService.getClassCoursesByClassId(classId)) {
+        for (ClassCourse classCourse : classCourseService.getClassCoursesByClassId(classId)) {
 
-            Integer courseId = course.getId();
-            unexcusedAbsences.put(courseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
-            excusedAbsences.put(courseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, courseId).stream().count());
-            overallGrades.put(courseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, courseId));
+            Integer classCourseId = classCourse.getId();
+            unexcusedAbsences.put(classCourseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).stream().count());
+            excusedAbsences.put(classCourseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).stream().count());
+            overallGrades.put(classCourseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, classCourseId));
         }
 
         model.addAttribute("courses", classCourseService.getClassCoursesByClassId(classId));
