@@ -55,8 +55,11 @@
                             th:text="${#temporals.format(grade.dateAssigned, 'dd/MM/yyyy')}"></span></p>
                     <div class="my-auto" style="display: flex;margin-left: 10px;">
                         <a class="btn btnMaterial btn-flat success semicircle" role="button"
-                           th:href="@{'/edit-grade/' + ${student.id} + '/' + ${course.id} + '/' + ${grade.id}}"><i class="fas fa-pen"></i></a>
-                        <form th:action="@{'/delete-grade/' + ${student.id} + '/' + ${course.id} + '/' + ${grade.id}}" method="post" onsubmit="return confirm('Are you sure you want to delete this grade?');" style="display:inline;">
+                           th:href="@{'/edit-grade/' + ${student.id} + '/' + ${course.id} + '/' + ${grade.id}}"><i
+                                class="fas fa-pen"></i></a>
+                        <form th:action="@{'/delete-grade/' + ${student.id} + '/' + ${course.id} + '/' + ${grade.id}}"
+                              method="post" onsubmit="return confirm('Are you sure you want to delete this grade?');"
+                              style="display:inline;">
                             <button type="submit" class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover">
                                 <i class="fas fa-trash" style="color: #DC3545;"></i>
                             </button>
@@ -78,7 +81,37 @@
                 <div class="d-xxl-flex align-items-xxl-end" style="display: flex;">
                     <p style="font-size: 42px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;color: var(--bs-gray-700);">
                         Unexcused absences</p>
-                    <button class="btn btn-primary d-xxl-flex m-auto" type="button">Add absence</button>
+                    <button class="btn btn-primary d-xxl-flex m-auto" type="button" data-bs-toggle="modal"
+                            data-bs-target="#addAbsenceModal">Add absence
+                    </button>
+                    <div class="modal fade" id="addAbsenceModal" tabindex="-1" aria-labelledby="addAbsenceModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="addAbsenceModalLabel">Add Absence</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form th:action="@{/add-absence/{studentId}/{courseId}(studentId=${student.id}, courseId=${course.id})}"
+                                          method="post">
+                                        <div class="mb-3">
+                                            <label for="absenceDate" class="form-label">Absence Date</label>
+                                            <input type="date" class="form-control" id="absenceDate" name="absenceDate"
+                                                   required>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                                Close
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div style="display: flex;">
                     <p style="font-size: 24px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;">Total
@@ -87,11 +120,14 @@
                 </div>
                 <div th:each="absence : ${absences}" style="display: flex;">
                     <p style="font-size: 20px;font-family: 'Source Sans Pro', sans-serif;"
-                       th:text="${#dates.format(absence.absenceDate, 'dd/MM/yyyy')}"></p>
-                    <button class="btn btn-primary d-xxl-flex justify-content-xxl-center align-items-xxl-center"
-                            type="button" style="height: 28px;width: 70px;margin-left: 13px;"
-                            th:onclick="'excuseAbsence(' + ${absence.id} + ')'">Excuse
-                    </button>
+                       th:text="${#temporals.format(absence.absenceDate, 'dd/MM/yyyy')}"></p>
+                    <form th:action="@{'/excuse-absence/' + ${absence.id}}" method="post" style="margin-left: 13px;">
+                        <input type="hidden" name="studentId" th:value="${student.id}">
+                        <input type="hidden" name="courseId" th:value="${course.id}">
+                        <button class="btn btn-primary d-flex justify-content-center align-items-center"
+                                type="submit" style="height: 28px;width: 70px;">Excuse
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
