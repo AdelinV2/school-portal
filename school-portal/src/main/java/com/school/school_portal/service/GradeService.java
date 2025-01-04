@@ -68,4 +68,27 @@ public class GradeService {
 
         return avg.divide(new BigDecimal(courseIds.size()), 2, RoundingMode.HALF_UP);
     }
+
+    public GradeForm getGradeFormById(Integer gradeId) {
+
+            Grade grade = gradeRepository.findById(gradeId).get();
+            GradeForm gradeForm = new GradeForm();
+
+            gradeForm.setStudentId(grade.getStudent().getId());
+            gradeForm.setCourseId(grade.getClassCourse().getId());
+            gradeForm.setGrade(grade.getGrade());
+            gradeForm.setDateAssigned(grade.getDateAssigned());
+
+            return gradeForm;
+    }
+
+    public void updateGrade(GradeForm gradeForm, Integer gradeId) {
+
+            Grade grade = gradeRepository.findById(gradeId).get();
+
+            grade.setGrade(gradeForm.getGrade());
+            grade.setDateAssigned(gradeForm.getDateAssigned());
+
+            gradeRepository.save(grade);
+    }
 }
