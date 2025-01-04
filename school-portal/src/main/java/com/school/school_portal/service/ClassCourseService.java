@@ -33,4 +33,8 @@ public class ClassCourseService {
     public Class getClassByCourseId(Integer courseId) {
         return classCourseRepository.findByCourse_Id(courseId).getClassField();
     }
+
+    public ClassCourse getClassCourseById(Integer classCourseId) {
+        return classCourseRepository.findById(classCourseId).orElse(null);
+    }
 }
