@@ -91,4 +91,8 @@ public class GradeService {
 
             gradeRepository.save(grade);
     }
+
+    public void deleteGrade(Integer gradeId) {
+        gradeRepository.deleteById(gradeId);
+    }
 }
