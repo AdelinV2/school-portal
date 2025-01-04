@@ -1,6 +1,7 @@
 package com.school.school_portal.controller;
 
 import com.school.school_portal.dto.CourseForm;
+import com.school.school_portal.dto.GradeForm;
 import com.school.school_portal.entity.*;
 import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
@@ -119,5 +120,34 @@ public class CourseController {
         model.addAttribute("avgGrade", avgGrade);
 
         return "course/course-info";
+    }
+
+    @GetMapping("/add-grade/{studentId}/{courseId}")
+    public String showAddGradeForm(@PathVariable Integer studentId, @PathVariable Integer courseId, Model model) {
+
+        model.addAttribute("grade", new GradeForm());
+        model.addAttribute("student", studentService.getStudentById(studentId));
+        model.addAttribute("course", courseService.getCourseById(courseId).get());
+        model.addAttribute("classCourse", classCourseService.getClassCourseByCourseId(courseId));
+
+        return "add/add-grade";
+    }
+
+    @PostMapping("/add-grade/{studentId}/{courseId}")
+    public String addGrade(@PathVariable Integer studentId, @PathVariable Integer courseId, @Valid GradeForm gradeForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("grade", gradeForm);
+            model.addAttribute("student", studentService.getStudentById(studentId));
+            model.addAttribute("course", courseService.getCourseById(courseId).get());
+            model.addAttribute("classCourse", classCourseService.getClassCourseByCourseId(courseId));
+
+            return "add/add-grade";
+        }
+
+        gradeService.saveGrade(gradeForm);
+
+        return "redirect:/admin/student/" + studentId + "/course/" + courseId;
     }
 }
