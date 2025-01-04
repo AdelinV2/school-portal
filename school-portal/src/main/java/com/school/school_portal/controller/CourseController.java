@@ -150,4 +150,39 @@ public class CourseController {
 
         return "redirect:/admin/student/" + studentId + "/course/" + courseId;
     }
+
+    @GetMapping("/edit-grade/{studentId}/{courseId}/{gradeId}")
+    public String showEditGradeForm(@PathVariable Integer studentId, @PathVariable Integer courseId, @PathVariable Integer gradeId, Model model) {
+
+        GradeForm gradeForm = new GradeForm();
+
+        gradeForm.setGrade(gradeService.getGradeFormById(gradeId).getGrade());
+        gradeForm.setDateAssigned(gradeService.getGradeFormById(gradeId).getDateAssigned());
+
+        model.addAttribute("grade", gradeForm);
+        model.addAttribute("student", studentService.getStudentById(studentId));
+        model.addAttribute("course", courseService.getCourseById(courseId).get());
+        model.addAttribute("classCourse", classCourseService.getClassCourseByCourseId(courseId));
+
+        return "update/update-grade";
+    }
+
+    @PostMapping("/edit-grade/{studentId}/{courseId}/{gradeId}")
+    public String editGrade(@PathVariable Integer studentId, @PathVariable Integer courseId, @PathVariable Integer gradeId, GradeForm gradeForm, BindingResult bindingResult, Model model) {
+
+        if (bindingResult.hasErrors()) {
+
+            model.addAttribute("grade", gradeForm);
+            model.addAttribute("gradeId", gradeId);
+            model.addAttribute("student", studentService.getStudentById(studentId));
+            model.addAttribute("course", courseService.getCourseById(courseId).get());
+            model.addAttribute("classCourse", classCourseService.getClassCourseByCourseId(courseId));
+
+            return "update/update-grade";
+        }
+
+        gradeService.updateGrade(gradeForm, gradeId);
+
+        return "redirect:/admin/student/" + studentId + "/course/" + courseId;
+    }
 }
