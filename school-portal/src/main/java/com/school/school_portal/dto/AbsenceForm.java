@@ -1,18 +1,18 @@
 package com.school.school_portal.dto;
 
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public class AbsenceForm {
 
-    @NotEmpty
+    @NotNull
     private Integer studentId;
 
-    @NotEmpty
+    @NotNull
     private Integer classCourseId;
 
-    @NotEmpty
+    @NotNull
     private LocalDate absenceDate;
 
     public Integer getStudentId() {
