@@ -1,19 +1,23 @@
 package com.school.school_portal.controller;
 
+import com.school.school_portal.dto.AbsenceForm;
 import com.school.school_portal.dto.CourseForm;
 import com.school.school_portal.dto.GradeForm;
 import com.school.school_portal.entity.*;
 import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -190,6 +194,28 @@ public class CourseController {
     public String deleteGrade(@PathVariable Integer studentId, @PathVariable Integer courseId, @PathVariable Integer gradeId) {
 
         gradeService.deleteGrade(gradeId);
+
+        return "redirect:/admin/student/" + studentId + "/course/" + courseId;
+    }
+
+    @PostMapping("/add-absence/{studentId}/{courseId}")
+    public String addAbsence(@PathVariable Integer studentId, @PathVariable Integer courseId, @RequestParam("absenceDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate absenceDate) {
+
+        AbsenceForm absenceForm = new AbsenceForm();
+
+        absenceForm.setStudentId(studentId);
+        absenceForm.setClassCourseId(classCourseService.getClassCourseByCourseId(courseId).getId());
+        absenceForm.setAbsenceDate(absenceDate);
+
+        absenceService.saveAbsence(absenceForm);
+
+        return "redirect:/admin/student/" + studentId + "/course/" + courseId;
+    }
+
+    @PostMapping("/excuse-absence/{absenceId}")
+    public String excuseAbsence(@PathVariable Integer absenceId, @RequestParam("studentId") Integer studentId, @RequestParam("courseId") Integer courseId) {
+
+        absenceService.excuseAbsence(absenceId);
 
         return "redirect:/admin/student/" + studentId + "/course/" + courseId;
     }
