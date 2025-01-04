@@ -185,4 +185,12 @@ public class CourseController {
 
         return "redirect:/admin/student/" + studentId + "/course/" + courseId;
     }
+
+    @PostMapping("/delete-grade/{studentId}/{courseId}/{gradeId}")
+    public String deleteGrade(@PathVariable Integer studentId, @PathVariable Integer courseId, @PathVariable Integer gradeId) {
+
+        gradeService.deleteGrade(gradeId);
+
+        return "redirect:/admin/student/" + studentId + "/course/" + courseId;
+    }
 }
