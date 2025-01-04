@@ -1,22 +1,27 @@
 package com.school.school_portal.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class GradeForm {
 
-    @NotEmpty
+    @NotNull
     private Integer studentId;
 
-    @NotEmpty
+    @NotNull
     private Integer courseId;
 
-    @NotEmpty
+    @NotNull
+    @Min(value = 1, message = "Grade must be at least 1")
+    @Max(value = 10, message = "Grade must be at most 10")
     private BigDecimal grade;
 
-    @NotEmpty
+    @NotNull
     private LocalDate dateAssigned;
 
     public Integer getStudentId() {
