@@ -27,7 +27,7 @@ public class AbsenceService {
         Absence absence = new Absence();
 
         absence.setStudent(studentService.getStudentById(absenceForm.getStudentId()));
-        absence.setClassCourse(classCourseService.getClassCourseByCourseId(absenceForm.getClassCourseId()));
+        absence.setClassCourse(classCourseService.getClassCourseById(absenceForm.getClassCourseId()));
         absence.setAbsenceDate(absenceForm.getAbsenceDate());
         absence.setExcused(false);
 
@@ -52,5 +52,14 @@ public class AbsenceService {
 
     public List<Absence> getAllAbsencesByStudentIdAndClassCourseId(Integer studentId, Integer classCourseId) {
         return absenceRepository.findByStudent_IdAndClassCourse_Id(studentId, classCourseId);
+    }
+
+    public void excuseAbsence(Integer absenceId) {
+
+        Absence absence = absenceRepository.findById(absenceId).orElse(null);
+
+        absence.setExcused(true);
+
+        absenceRepository.save(absence);
     }
 }
