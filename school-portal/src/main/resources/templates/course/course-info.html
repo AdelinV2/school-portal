@@ -55,7 +55,7 @@
                             th:text="${#temporals.format(grade.dateAssigned, 'dd/MM/yyyy')}"></span></p>
                     <div class="my-auto" style="display: flex;margin-left: 10px;">
                         <a class="btn btnMaterial btn-flat success semicircle" role="button"
-                           th:href="@{'/admin/edit-grade/' + ${grade.id}}"><i class="fas fa-pen"></i></a>
+                           th:href="@{'/edit-grade/' + ${student.id} + '/' + ${course.id} + '/' + ${grade.id}}"><i class="fas fa-pen"></i></a>
                         <a class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover" role="button"
                            style="margin-left: 5px;" th:href="@{'/admin/delete-grade/' + ${grade.id}}"
                            onclick="return confirm('Are you sure you want to delete this grade?');"><i
