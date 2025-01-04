@@ -43,7 +43,8 @@
                 <div class="d-xxl-flex align-items-xxl-end" style="display: flex;">
                     <p style="font-size: 42px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;color: var(--bs-gray-700);">
                         Grades</p>
-                    <button class="btn btn-primary d-xxl-flex m-auto" type="button">Add grade</button>
+                    <a class="btn btn-primary d-xxl-flex m-auto" type="button"
+                       th:href="@{'/add-grade/' + ${student.id} + '/' + ${course.id}}">Add grade</a>
                 </div>
                 <div th:each="grade : ${grades}" class="d-xxl-flex align-items-xxl-end"
                      style="display: flex;margin-bottom: 4px;">
@@ -51,7 +52,7 @@
                        th:text="${grade.grade}"></p>
                     <p class="d-xxl-flex align-items-xxl-center"
                        style="font-size: 24px;font-family: 'Source Sans Pro', sans-serif;">&nbsp;on <span
-                            th:text="${#dates.format(grade.dateAssigned, 'dd/MM/yyyy')}"></span></p>
+                            th:text="${#temporals.format(grade.dateAssigned, 'dd/MM/yyyy')}"></span></p>
                     <div class="my-auto" style="display: flex;margin-left: 10px;">
                         <a class="btn btnMaterial btn-flat success semicircle" role="button"
                            th:href="@{'/admin/edit-grade/' + ${grade.id}}"><i class="fas fa-pen"></i></a>
@@ -72,19 +73,25 @@
             </div>
         </div>
         <div class="ms-auto" style="min-width: 480px;">
-            <p style="font-size: 42px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;color: var(--bs-gray-700);">
-                Unexcused absences</p>
-            <div style="display: flex;">
-                <p style="font-size: 24px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;">Total number:
-                    <span th:text="${absences.size()}"></span></p>
-            </div>
-            <div th:each="absence : ${absences}" style="display: flex;">
-                <p style="font-size: 20px;font-family: 'Source Sans Pro', sans-serif;"
-                   th:text="${#dates.format(absence.absenceDate, 'dd/MM/yyyy')}"></p>
-                <button class="btn btn-primary d-xxl-flex justify-content-xxl-center align-items-xxl-center"
-                        type="button" style="height: 28px;width: 70px;margin-left: 13px;"
-                        th:onclick="'excuseAbsence(' + ${absence.id} + ')'">Excuse
-                </button>
+            <div style="margin-bottom: 40px;">
+                <div class="d-xxl-flex align-items-xxl-end" style="display: flex;">
+                    <p style="font-size: 42px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;color: var(--bs-gray-700);">
+                        Unexcused absences</p>
+                    <button class="btn btn-primary d-xxl-flex m-auto" type="button">Add absence</button>
+                </div>
+                <div style="display: flex;">
+                    <p style="font-size: 24px;font-family: 'Source Sans Pro', sans-serif;font-weight: bold;">Total
+                        number:
+                        <span th:text="${absences.size()}"></span></p>
+                </div>
+                <div th:each="absence : ${absences}" style="display: flex;">
+                    <p style="font-size: 20px;font-family: 'Source Sans Pro', sans-serif;"
+                       th:text="${#dates.format(absence.absenceDate, 'dd/MM/yyyy')}"></p>
+                    <button class="btn btn-primary d-xxl-flex justify-content-xxl-center align-items-xxl-center"
+                            type="button" style="height: 28px;width: 70px;margin-left: 13px;"
+                            th:onclick="'excuseAbsence(' + ${absence.id} + ')'">Excuse
+                    </button>
+                </div>
             </div>
         </div>
     </div>
