@@ -62,6 +62,10 @@ public class GradeService {
         List<Integer> courseIds = classCourseService.getClassCourseIdsByClassId(classId);
         BigDecimal avg = new BigDecimal(0);
 
+        if (courseIds.isEmpty()) {
+            return avg;
+        }
+
         for (Integer courseId : courseIds) {
             avg = avg.add(getAverageGradeByStudentIdAndClassCourseId(studentId, courseId));
         }
