@@ -48,6 +48,9 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(rawPassword);
 
         user.setPassword(encodedPassword);
+        user.setFirstName(user.getFirstName().trim());
+        user.setLastName(user.getLastName().trim());
+        user.setEmail(user.getEmail().toLowerCase());
 
         userRepository.save(user);
         emailController.sendEmailNewAccount(user, rawPassword);
@@ -61,6 +64,10 @@ public class UserService {
     }
 
     public void updateUser(User user) {
+
+        user.setFirstName(user.getFirstName().trim());
+        user.setLastName(user.getLastName().trim());
+        user.setEmail(user.getEmail().toLowerCase());
 
         userRepository.save(user);
     }
