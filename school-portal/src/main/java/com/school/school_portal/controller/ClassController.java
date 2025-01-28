@@ -85,7 +85,7 @@ public class ClassController {
 
         for (Student student : studentService.getStudentsByClassId(classId)) {
             overallGrades.put(student.getId(), gradeService.getTotalAverageGradeByStudentId(student.getId()));
-            unexcusedAbsences.put(student.getId(), absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).stream().count());
+            unexcusedAbsences.put(student.getId(), (long) absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).size());
         }
 
         model.addAttribute("class", classService.getClassById(classId));
@@ -174,8 +174,8 @@ public class ClassController {
         for (ClassCourse classCourse : classCourseService.getClassCoursesByClassId(classId)) {
 
             Integer classCourseId = classCourse.getId();
-            unexcusedAbsences.put(classCourseId, absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).stream().count());
-            excusedAbsences.put(classCourseId, absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).stream().count());
+            unexcusedAbsences.put(classCourseId, (long) absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).size());
+            excusedAbsences.put(classCourseId, (long) absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).size());
             overallGrades.put(classCourseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, classCourseId));
         }
 
