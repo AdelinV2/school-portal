@@ -29,3 +29,8 @@ projectJDK: "23" #(Applied in CI/CD pipeline)
 
 #Specify Qodana linter for analysis (Applied in CI/CD pipeline)
 linter: jetbrains/qodana-jvm:2024.3
+exclude:
+  - name: All
+    paths:
+      - school-portal\src\main\resources\static\assets\css\Animation-Cards.css
+      - school-portal\src\main\resources\static\assets\css\Animation-Cards-_app.css
