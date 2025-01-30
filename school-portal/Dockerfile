@@ -1,4 +1,4 @@
-FROM eclipse-temurin:23-jdk
+FROM maven:3.9-eclipse-temurin-23 AS build
 
 WORKDIR /app
 
@@ -12,7 +12,7 @@ RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:23-jdk AS runtime
 
-COPY target/*.jar school-portal.jar
+COPY --from=build /app/target/*.jar school-portal.jar
 
 EXPOSE 8080
 
