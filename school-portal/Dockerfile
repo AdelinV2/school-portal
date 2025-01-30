@@ -2,12 +2,12 @@ FROM eclipse-temurin:23-jdk
 
 WORKDIR /app
 
-COPY pom.xml .
-COPY src ./src
-COPY .mvn ./.mvn
-COPY mvnw .
+COPY school-portal/pom.xml .
+COPY school-portal/src ./src
+COPY school-portal/.mvn ./.mvn
+COPY school-portal/mvnw .
 
-RUN chmod +x mvnw && ./mvnw package -DskipTests
+RUN chmod +x mvnw && ./mvnw clean package -DskipTests
 
 COPY target/*.jar school-portal.jar
 
