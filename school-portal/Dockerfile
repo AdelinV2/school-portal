@@ -1,16 +1,21 @@
-FROM eclipse-temurin:23-jdk
+FROM maven:3.9-eclipse-temurin-23 AS build
 
 WORKDIR /app
 
 COPY pom.xml .
-COPY src ./src
-COPY .mvn ./.mvn
-COPY mvnw .
 
-RUN chmod +x mvnw && ./mvnw package -DskipTests
+RUN mvn dependency:go-offline
 
-COPY target/*.jar school-portal.jar
+COPY src /app/src
+
+RUN mvn clean package -DskipTests
+
+FROM eclipse-temurin:23-jdk AS runtime
+
+WORKDIR /app
+
+COPY --from=build /app/target/*.jar /app/app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "school-portal.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
