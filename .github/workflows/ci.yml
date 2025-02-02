@@ -24,6 +24,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
+        working-directory: school-portal
 
       - name: Build Docker image
         run: docker build -t school-portal -f school-portal/Dockerfile school-portal
