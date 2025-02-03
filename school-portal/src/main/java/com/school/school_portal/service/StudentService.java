@@ -1,6 +1,7 @@
 package com.school.school_portal.service;
 
 import com.school.school_portal.dto.StudentForm;
+import com.school.school_portal.entity.ClassCourse;
 import com.school.school_portal.entity.Role;
 import com.school.school_portal.entity.Student;
 import com.school.school_portal.entity.User;
@@ -17,12 +18,16 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final UserService userService;
     private final ClassService classService;
+    private final CourseService courseService;
+    private final ClassCourseService classCourseService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository, UserService userService, ClassService classService) {
+    public StudentService(StudentRepository studentRepository, UserService userService, ClassService classService, CourseService courseService, ClassCourseService classCourseService) {
         this.studentRepository = studentRepository;
         this.userService = userService;
         this.classService = classService;
+        this.courseService = courseService;
+        this.classCourseService = classCourseService;
     }
 
     public List<Student> getStudentsByClassId(Integer classId) {
@@ -76,5 +81,21 @@ public class StudentService {
     public void deleteStudent(Integer studentId) {
 
         userService.deleteUser(studentRepository.findById(studentId).orElse(null).getUser().getId());
+    }
+
+    public List<ClassCourse> getCoursesByStudentId(Integer studentId) {
+
+        Student student = studentRepository.findById(studentId).orElse(null);
+
+        if(student == null) {
+            return null;
+        }
+
+        return classCourseService.getClassCoursesByClassId(student.getClassField().getId());
+    }
+
+    public Student getStudentByEmail(String name) {
+
+        return studentRepository.findByUser_Email(name);
     }
 }

@@ -10,4 +10,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer> {
     int countByClassField_Id(Integer classId);
 
     List<Student> findAllByClassField_Id(Integer classId);
+
+    Student findByUser_Email(String name);
 }
