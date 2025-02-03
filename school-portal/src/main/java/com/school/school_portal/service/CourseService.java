@@ -69,4 +69,11 @@ public class CourseService {
     public Optional<Course> getCourseById(Integer courseId) {
         return courseRepository.findById(courseId);
     }
+
+    public List<Course> getCoursesByClassId(Integer classId) {
+
+        List<ClassCourse> allClassFieldId = classCourseRepository.findAllByClassField_Id(classId);
+
+        return courseRepository.findAllById(allClassFieldId.stream().map(classCourse -> classCourse.getCourse().getId()).toList());
+    }
 }

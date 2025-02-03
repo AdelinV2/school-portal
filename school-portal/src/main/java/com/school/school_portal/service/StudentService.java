@@ -1,10 +1,7 @@
 package com.school.school_portal.service;
 
 import com.school.school_portal.dto.StudentForm;
-import com.school.school_portal.entity.ClassCourse;
-import com.school.school_portal.entity.Role;
-import com.school.school_portal.entity.Student;
-import com.school.school_portal.entity.User;
+import com.school.school_portal.entity.*;
 import com.school.school_portal.repository.StudentRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,15 +80,11 @@ public class StudentService {
         userService.deleteUser(studentRepository.findById(studentId).orElse(null).getUser().getId());
     }
 
-    public List<ClassCourse> getCoursesByStudentId(Integer studentId) {
+    public List<Course> getCoursesByStudentId(Integer studentId) {
 
-        Student student = studentRepository.findById(studentId).orElse(null);
+        Integer classId = studentRepository.findById(studentId).orElse(null).getClassField().getId();
 
-        if(student == null) {
-            return null;
-        }
-
-        return classCourseService.getClassCoursesByClassId(student.getClassField().getId());
+        return courseService.getCoursesByClassId(classId);
     }
 
     public Student getStudentByEmail(String name) {

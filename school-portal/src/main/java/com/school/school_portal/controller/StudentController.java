@@ -1,6 +1,10 @@
 package com.school.school_portal.controller;
 
+import com.school.school_portal.entity.Course;
+import com.school.school_portal.entity.Student;
 import com.school.school_portal.entity.User;
+import com.school.school_portal.service.ClassCourseService;
+import com.school.school_portal.service.CourseService;
 import com.school.school_portal.service.StudentService;
 import com.school.school_portal.service.UserService;
 import org.springframework.security.core.Authentication;
@@ -17,17 +21,17 @@ import java.security.Principal;
 public class StudentController {
 
     private final StudentService studentService;
-    private final UserService userService;
 
-    public StudentController(StudentService studentService, UserService userService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
-        this.userService = userService;
     }
 
     @GetMapping("/courses")
     public String courses(Model model, Principal principal) {
 
-        model.addAttribute("student", studentService.getStudentByEmail(principal.getName()));
+        Student student = studentService.getStudentByEmail(principal.getName());
+
+        model.addAttribute("courses", studentService.getCoursesByStudentId(student.getId()));
 
         return "course/courses";
     }

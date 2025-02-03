@@ -15,4 +15,6 @@ public interface ClassCourseRepository extends JpaRepository<ClassCourse, Intege
 
     @Query("SELECT c.course.id FROM ClassCourse c WHERE c.classField.id = :classFieldId")
     List<Integer> findCourseIdsByClassField_Id(@Param("classFieldId") Integer classFieldId);
+
+    List<ClassCourse> findAllByClassField_Id(Integer classId);
 }
