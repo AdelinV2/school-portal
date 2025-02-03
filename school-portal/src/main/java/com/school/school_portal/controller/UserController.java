@@ -27,9 +27,23 @@ public class UserController {
     @GetMapping("/")
     public String home(Model model) {
 
+        String userRole = (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().orElse(null)).toString();
+
+        System.out.println(userRole);
+
+        if (userRole.equals("Student")) {
+
+            return "redirect:/student/courses";
+        }
+
+        if (userRole.equals("Teacher")) {
+
+            return "redirect:/teacher";
+        }
+
         model.addAttribute("classes", classService.getClassesForCurrentUser());
         model.addAttribute("classService", classService);
-        model.addAttribute("userRole", (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().orElse(null)).toString());
+        model.addAttribute("userRole", userRole);
 
         return "dashboard";
     }
