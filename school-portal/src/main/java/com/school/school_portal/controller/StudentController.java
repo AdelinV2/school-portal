@@ -49,11 +49,10 @@ public class StudentController {
 
         model.addAttribute("course", course);
         model.addAttribute("student", student);
+        model.addAttribute("teacher", course.getTeacher());
         model.addAttribute("absences", absenceService.getAllAbsencesByStudentIdAndClassCourseId(student.getId(), classCourseId));
         model.addAttribute("grades", gradeService.getGradesByStudentIdAndClassCourseId(student.getId(), classCourseId));
-        model.addAttribute("averageGrade", gradeService.getAverageGradeByStudentIdAndClassCourseId(student.getId(), classCourseId));
-
-        // TODO - complete html implementation
+        model.addAttribute("avgGrade", gradeService.getAverageGradeByStudentIdAndClassCourseId(student.getId(), classCourseId));
 
         return "course/course-info";
     }
