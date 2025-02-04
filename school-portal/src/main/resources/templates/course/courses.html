@@ -29,6 +29,7 @@
 <div class="container" style="min-height: 80.8vh;">
     <div class="row space-rows">
         <div class="col d-flex justify-content-center align-items-center" th:each="course : ${courses}">
+            <a th:href="@{'/student/course/' + ${course.id}}" class="card-link">
             <div class="card cards-shadown cards-hover" data-aos="flip-left" data-aos-duration="950"
                  style="height: 200px;">
                 <div class="card-header">
@@ -41,6 +42,7 @@
                     <p class="text-center card-text cardbody-sub-text">See more info</p>
                 </div>
             </div>
+            </a>
         </div>
     </div>
 </div>
