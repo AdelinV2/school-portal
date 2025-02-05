@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org">
+<html data-bs-theme="light" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <meta charset="utf-8">
@@ -34,7 +34,9 @@
             <h3 class="text-dark mb-4">Class <span th:text="${class.year} + ' ' + ${class.section}"/></h3>
         </div>
         <div class="col-12 col-sm-6 col-md-6 text-end" style="margin-bottom: 30px;">
-            <a class="btn btn-primary" role="button" th:href="@{'/admin/add-student/' + ${class.id}}"><i
+            <a class="btn btn-primary" role="button"
+               th:href="@{'/admin/add-student/' + ${class.id}}"
+               sec:authorize="hasAuthority('Admin')"><i
                     class="fa fa-plus"></i>&nbsp;Add student</a>
         </div>
     </div>
@@ -60,10 +62,12 @@
                             <td th:text="${unexcusedAbsences[student.id]}">Unexcused Absences</td>
                             <td class="text-center align-middle" style="max-height: 60px;height: 60px;">
                                 <a class="btn btnMaterial btn-flat primary semicircle" role="button"
-                                   th:href="@{'/admin/student/' + ${student.id}}"><i class="far fa-eye"></i></a>
+                                   th:href="@{'/admin/student/' + ${student.id}}"><i class="far fa-eye"></i></a> <!-- TODO add href for teacher -->
                                 <a class="btn btnMaterial btn-flat success semicircle" role="button"
+                                   sec:authorize="hasAuthority('Admin')"
                                    th:href="@{'/admin/edit-student/' + ${student.id}}"><i class="fas fa-pen"></i></a>
                                 <form th:action="@{'/admin/delete-student/' + ${student.id}}" method="post"
+                                      sec:authorize="hasAuthority('Admin')"
                                       style="display:inline;">
                                     <button type="submit"
                                             class="btn btnMaterial btn-flat accent btnNoBorders checkboxHover"

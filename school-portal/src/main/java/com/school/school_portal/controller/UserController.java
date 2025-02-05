@@ -36,10 +36,7 @@ public class UserController {
             return "redirect:/student/courses";
         }
 
-        if (userRole.equals("Teacher")) {
 
-            return "redirect:/teacher";
-        }
 
         model.addAttribute("classes", classService.getClassesForCurrentUser());
         model.addAttribute("classService", classService);

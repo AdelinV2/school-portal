@@ -37,4 +37,8 @@ public class ClassCourseService {
     public ClassCourse getClassCourseById(Integer classCourseId) {
         return classCourseRepository.findById(classCourseId).orElse(null);
     }
+
+    public ClassCourse getClassCourseByClassIdAndTeacherId(Integer classId, Integer teacherId) {
+        return classCourseRepository.findByClassField_IdAndCourse_Teacher_Id(classId, teacherId);
+    }
 }

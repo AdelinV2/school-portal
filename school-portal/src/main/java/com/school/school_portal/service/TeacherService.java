@@ -56,6 +56,10 @@ public class TeacherService {
         return teacherRepository.findByUser_FirstNameAndUser_LastName(firstName, lastName);
     }
 
+    public Optional<Teacher> getTeacherByEmail(String email) {
+        return teacherRepository.findByUser_Email(email);
+    }
+
     public List<String> getAllTeachers() {
         return teacherRepository.findAll().stream().map(teacher -> teacher.getUser().getFullName()).toList();
     }

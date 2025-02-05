@@ -4,9 +4,11 @@ import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.dto.StudentForm;
 import com.school.school_portal.entity.ClassCourse;
 import com.school.school_portal.entity.Student;
+import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,14 +29,16 @@ public class ClassController {
     private final StudentService studentService;
     private final GradeService gradeService;
     private final AbsenceService absenceService;
+    private final TeacherService teacherService;
 
     @Autowired
-    public ClassController(ClassService classService, ClassCourseService classCourseService, StudentService studentService, GradeService gradeService, AbsenceService absenceService) {
+    public ClassController(ClassService classService, ClassCourseService classCourseService, StudentService studentService, GradeService gradeService, AbsenceService absenceService, TeacherService teacherService) {
         this.classService = classService;
         this.classCourseService = classCourseService;
         this.studentService = studentService;
         this.gradeService = gradeService;
         this.absenceService = absenceService;
+        this.teacherService = teacherService;
     }
 
     @GetMapping("/admin/add-class")
@@ -77,7 +81,36 @@ public class ClassController {
         return "class/class-info";
     }
 
-    @GetMapping({"/admin/students/{classId}", "/teacher/students/{classId}"})
+    @GetMapping("/teacher/class/{classId}")
+    public String getTeacherClassDetails(@PathVariable Integer classId, Model model) {
+
+        Teacher teacher = teacherService.getTeacherByEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElse(null);
+
+        if (teacher == null) {
+            return "redirect:/";
+        }
+
+        ClassCourse classCourse = classCourseService.getClassCourseByClassIdAndTeacherId(classId, teacher.getId());
+
+        Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+        Map<Integer, Long> unexcusedAbsences = new HashMap<>();
+
+        for (Student student : studentService.getStudentsByClassId(classId)) {
+            overallGrades.put(student.getId(), gradeService.getAverageGradeByStudentIdAndClassCourseId(student.getId(), classCourse.getId()));
+            unexcusedAbsences.put(student.getId(), (long) absenceService.getTotalUnexcusedAbsencesByStudentId(student.getId()).size());
+        }
+
+        model.addAttribute("class", classService.getClassById(classId));
+        model.addAttribute("classCourse", classCourse);
+        model.addAttribute("class", classService.getClassById(classId));
+        model.addAttribute("students", studentService.getStudentsByClassId(classId));
+        model.addAttribute("overallGrades", overallGrades);
+        model.addAttribute("unexcusedAbsences", unexcusedAbsences);
+
+        return "class/class-students";
+    }
+
+    @GetMapping("/admin/students/{classId}")
     public String showStudentsInClass(@PathVariable Integer classId, Model model) {
 
         Map<Integer, BigDecimal> overallGrades = new HashMap<>();
@@ -161,7 +194,7 @@ public class ClassController {
         return "redirect:/admin/students/" + studentService.getStudentById(studentId).getClassField().getId();
     }
 
-    @GetMapping("/admin/student/{studentId}")
+    @GetMapping({"/admin/student/{studentId}", "/teacher/student/{studentId}"})
     public String showStudentDetails(@PathVariable Integer studentId, Model model) {
 
         Student student = studentService.getStudentById(studentId);
