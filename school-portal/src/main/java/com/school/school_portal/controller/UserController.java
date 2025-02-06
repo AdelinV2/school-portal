@@ -29,8 +29,6 @@ public class UserController {
 
         String userRole = (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream().findFirst().orElse(null)).toString();
 
-        System.out.println(userRole);
-
         if (userRole.equals("Student")) {
 
             return "redirect:/student/courses";
