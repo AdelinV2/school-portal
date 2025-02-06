@@ -105,7 +105,7 @@ public class CourseController {
         return "redirect:/admin/class/" + classId;
     }
 
-    @GetMapping("/admin/student/{studentId}/course/{courseId}")
+    @GetMapping({"/admin/student/{studentId}/course/{courseId}", "/teacher/student/{studentId}/course/{courseId}"})
     public String showStudentCourse(@PathVariable Integer studentId, @PathVariable Integer courseId, Model model) {
 
         Integer classCourseId = classCourseService.getClassCourseByCourseId(courseId).getId();

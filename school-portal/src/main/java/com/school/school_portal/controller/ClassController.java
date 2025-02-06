@@ -194,7 +194,7 @@ public class ClassController {
         return "redirect:/admin/students/" + studentService.getStudentById(studentId).getClassField().getId();
     }
 
-    @GetMapping({"/admin/student/{studentId}", "/teacher/student/{studentId}"})
+    @GetMapping("/admin/student/{studentId}")
     public String showStudentDetails(@PathVariable Integer studentId, Model model) {
 
         Student student = studentService.getStudentById(studentId);
