@@ -54,7 +54,7 @@
                     <tr th:each="course : ${courses}">
                         <td th:text="${course.course.name}"></td>
                         <td>
-                            <span th:each="grade : ${grades}" th:if="${grade.classCourse.id == course.id}"
+                            <span th:each="grade : ${grades[course.id]}" th:if="${grade.classCourse.id == course.id}"
                                   th:text="${grade.grade} + ' '"></span>
                         </td>
                         <td th:text="${#numbers.formatDecimal(overallGrades[course.id], 2, 2)}"></td>
