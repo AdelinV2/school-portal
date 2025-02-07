@@ -4,7 +4,6 @@ import com.school.school_portal.controller.EmailController;
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,5 +80,10 @@ public class UserService {
     public User getUserByEmail(String name) {
 
         return userRepository.findByEmail(name).orElse(null);
+    }
+
+    public void changePassword(String email, String newPassword) {
+
+        userRepository.updatePasswordByEmail(email, passwordEncoder.encode(newPassword));
     }
 }

@@ -19,29 +19,36 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
         String redirectUrl = "";
 
-        for (GrantedAuthority authority : authorities) {
+        if (!userDetails.isEnabled()) {
+            request.getSession().setAttribute("mustChangePassword", true);
+            redirectUrl = "/change-password";
+        }
 
-            if (authority.getAuthority().equals("Admin")) {
+        else {
 
-                redirectUrl = "/";
+            Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
-                break;
-            } else if (authority.getAuthority().equals("Teacher")) {
 
-                redirectUrl = "/";
+            for (GrantedAuthority authority : authorities) {
 
-                break;
-            } else if (authority.getAuthority().equals("Student")) {
+                if (authority.getAuthority().equals("Admin")) {
 
-                redirectUrl = "/";
+                    redirectUrl = "/";
 
-                break;
+                    break;
+                } else if (authority.getAuthority().equals("Teacher")) {
+
+                    redirectUrl = "/";
+
+                    break;
+                } else if (authority.getAuthority().equals("Student")) {
+
+                    redirectUrl = "/";
+
+                    break;
+                }
             }
         }
 

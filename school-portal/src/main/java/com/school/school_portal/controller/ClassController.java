@@ -3,6 +3,7 @@ package com.school.school_portal.controller;
 import com.school.school_portal.dto.ClassForm;
 import com.school.school_portal.dto.StudentForm;
 import com.school.school_portal.entity.ClassCourse;
+import com.school.school_portal.entity.Grade;
 import com.school.school_portal.entity.Student;
 import com.school.school_portal.entity.Teacher;
 import com.school.school_portal.service.*;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -203,6 +205,7 @@ public class ClassController {
         Map<Integer, Long> unexcusedAbsences = new HashMap<>();
         Map<Integer, Long> excusedAbsences = new HashMap<>();
         Map<Integer, BigDecimal> overallGrades = new HashMap<>();
+        Map<Integer, List<Grade>> grades = new HashMap<>();
 
         for (ClassCourse classCourse : classCourseService.getClassCoursesByClassId(classId)) {
 
@@ -210,11 +213,12 @@ public class ClassController {
             unexcusedAbsences.put(classCourseId, (long) absenceService.getUnexcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).size());
             excusedAbsences.put(classCourseId, (long) absenceService.getExcusedAbsencesByStudentIdAndClassCourseId(studentId, classCourseId).size());
             overallGrades.put(classCourseId, gradeService.getAverageGradeByStudentIdAndClassCourseId(studentId, classCourseId));
+            grades.put(classCourseId, gradeService.getGradesByStudentIdAndClassCourseId(studentId, classCourseId));
         }
 
         model.addAttribute("courses", classCourseService.getClassCoursesByClassId(classId));
         model.addAttribute("student", student);
-        model.addAttribute("grades", gradeService.getGradesByStudentIdAndClassCourseId(studentId, classId));
+        model.addAttribute("grades", grades);
         model.addAttribute("unexcusedAbsences", unexcusedAbsences);
         model.addAttribute("excusedAbsences", excusedAbsences);
         model.addAttribute("overallGrades", overallGrades);
