@@ -1,6 +1,7 @@
 package com.school.school_portal.service;
 
 import com.school.school_portal.controller.EmailController;
+import com.school.school_portal.dto.StudentForm;
 import com.school.school_portal.entity.User;
 import com.school.school_portal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,5 +86,18 @@ public class UserService {
     public void changePassword(String email, String newPassword) {
 
         userRepository.updatePasswordByEmail(email, passwordEncoder.encode(newPassword));
+    }
+
+    public void resetPassword(String email) {
+
+        String rawPassword = generateRandomPassword();
+
+        userRepository.updatePasswordByEmail(email, passwordEncoder.encode(rawPassword));
+        emailController.sendEmailResetPassword(getUserByEmail(email), rawPassword);
+    }
+
+    public User getUserByStudentId(Integer studentId) {
+
+        return userRepository.findByStudentId(studentId);
     }
 }

@@ -13,8 +13,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -89,5 +91,15 @@ public class UserController {
         model.addAttribute("message", "Password changed successfully");
 
         return "login";
+    }
+
+    @PostMapping("/reset-password/{studentId}")
+    public String resetPassword(@PathVariable("studentId") Integer studentId, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+
+        userService.resetPassword(userService.getUserByStudentId(studentId).getEmail());
+
+        redirectAttributes.addFlashAttribute("message", "Password reset successfully");
+
+        return "redirect:/admin/edit-student/" + studentId;
     }
 }

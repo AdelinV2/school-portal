@@ -27,4 +27,17 @@ public class EmailController {
 
         emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
     }
+
+    public void sendEmailResetPassword(User user, String password) {
+
+        String emailSubject = "Password Reset";
+
+        String emailBody = "Hello " + user.getRole().getName() + " " + user.getFullName() + ",\n\n" +
+                "Your password has been reset. Your new password is: " + password + "\n\n" +
+                "Please login to the system and change your password.\n\n" +
+                "Regards,\n" +
+                "Spring School Office";
+
+        emailService.sendEmail(user.getEmail(), emailSubject, emailBody);
+    }
 }
