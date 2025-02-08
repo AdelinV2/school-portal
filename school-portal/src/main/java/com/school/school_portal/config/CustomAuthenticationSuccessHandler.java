@@ -1,5 +1,6 @@
 package com.school.school_portal.config;
 
+import com.school.school_portal.util.CustomUserDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,15 +19,16 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String redirectUrl = "";
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        String redirectUrl = "/";
 
-        if (!userDetails.isEnabled()) {
+        if (!userDetails.isActive()) {
+
             request.getSession().setAttribute("mustChangePassword", true);
             redirectUrl = "/change-password";
-        }
+        } else {
 
-        else {
+            request.getSession().removeAttribute("mustChangePassword");
 
             Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 

@@ -14,11 +14,11 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navcol-1">
-                <div th:if="${currentUser.role.name == 'Admin'}" class="navbar-buttons">
+                <div th:if="${currentUser != null and currentUser.role.name == 'Admin'}" class="navbar-buttons">
                     <button class="btn btn-primary me-2" onclick="window.location.href='/admin/add-class'">Add Class</button>
                     <button class="btn btn-primary me-2" onclick="window.location.href='/admin/add-teacher'">Add Teacher</button>
                 </div>
-                <span class="ms-auto navbar-text" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
+                <span class="ms-auto navbar-text" th:if="${currentUser != null}" th:text="${currentUser.firstName} + ' ' + ${currentUser.lastName}" style="font-family: 'Source Sans Pro', sans-serif;"></span>
                 <button class="btn btn-primary ms-4" onclick="window.location.href='/logout'">Log out</button>
             </div>
         </div>

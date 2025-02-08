@@ -85,7 +85,12 @@ public class UserService {
 
     public void changePassword(String email, String newPassword) {
 
-        userRepository.updatePasswordByEmail(email, passwordEncoder.encode(newPassword));
+        User user = getUserByEmail(email);
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setActive(true);
+
+        userRepository.save(user);
     }
 
     public void resetPassword(String email) {

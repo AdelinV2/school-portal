@@ -1,5 +1,6 @@
 package com.school.school_portal.controller;
 
+import com.school.school_portal.dto.PasswordForm;
 import com.school.school_portal.service.ClassService;
 import com.school.school_portal.service.UserService;
 import com.school.school_portal.util.CustomUserDetails;
@@ -12,10 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -74,18 +72,27 @@ public class UserController {
     }
 
     @GetMapping("/change-password")
-    public String showResetPassword() {
+    public String showResetPassword(Model model) {
+
+        model.addAttribute("passwordForm", new PasswordForm());
 
         return "reset-password";
     }
 
     @PostMapping("/change-password")
     public String changePassword(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                 @RequestParam("newPassword") String newPassword,
+                                 @ModelAttribute("passwordForm") PasswordForm passwordForm,
                                  HttpServletRequest request,
                                  Model model) {
 
-        userService.changePassword(userDetails.getUsername(), newPassword);
+        if (!passwordForm.getFirstPassword().equals(passwordForm.getSecondPassword())) {
+
+            model.addAttribute("message", "Passwords do not match");
+
+            return "reset-password";
+        }
+
+        userService.changePassword(userDetails.getUsername(), passwordForm.getFirstPassword());
 
         request.getSession().removeAttribute("mustChangePassword");
         model.addAttribute("message", "Password changed successfully");

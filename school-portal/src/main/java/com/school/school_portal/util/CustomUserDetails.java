@@ -53,6 +53,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
+        return true;
+    }
+
+    public boolean isActive() {
         return user.getActive();
+    }
+
+    public void setActive(Boolean active) {
+        user.setActive(active);
     }
 }

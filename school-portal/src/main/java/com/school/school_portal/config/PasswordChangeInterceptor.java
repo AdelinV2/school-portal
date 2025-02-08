@@ -12,8 +12,13 @@ public class PasswordChangeInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         Boolean mustChangePassword = (Boolean) request.getSession().getAttribute("mustChangePassword");
+        String uri = request.getRequestURI();
 
-        if (mustChangePassword != null && mustChangePassword && !request.getRequestURI().equals("/reset-password")) {
+        if (uri.startsWith("/assets")) {
+            return true;
+        }
+
+        if (mustChangePassword != null && mustChangePassword && !request.getRequestURI().equals("/change-password")) {
             response.sendRedirect("/change-password");
             return false;
         }

@@ -33,7 +33,7 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/login").permitAll();
+            auth.requestMatchers("/login", "/change-password").permitAll();
             auth.requestMatchers("/assets/**").permitAll();
             auth.requestMatchers("/admin/**").hasAuthority("Admin");
             auth.requestMatchers("/teacher/**").hasAnyAuthority("Admin", "Teacher");
