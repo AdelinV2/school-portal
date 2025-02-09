@@ -109,4 +109,14 @@ public class UserController {
 
         return "redirect:/admin/edit-student/" + studentId;
     }
+
+    @PostMapping("/reset-password")
+    public String resetPasswordByEmail(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
+
+        userService.resetPassword(email);
+
+        redirectAttributes.addFlashAttribute("message", "New password has been sent to your email");
+
+        return "redirect:/login";
+    }
 }

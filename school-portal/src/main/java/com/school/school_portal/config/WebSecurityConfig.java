@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -33,7 +34,7 @@ public class WebSecurityConfig {
         http.authenticationProvider(authenticationProvider());
 
         http.authorizeHttpRequests(auth -> {
-            auth.requestMatchers("/login", "/change-password").permitAll();
+            auth.requestMatchers("/login", "/change-password", "/reset-password").permitAll();
             auth.requestMatchers("/assets/**").permitAll();
             auth.requestMatchers("/admin/**").hasAuthority("Admin");
             auth.requestMatchers("/teacher/**").hasAnyAuthority("Admin", "Teacher");
@@ -50,9 +51,11 @@ public class WebSecurityConfig {
                 .logout(logout -> {
                     logout.logoutUrl("/logout");
                     logout.logoutSuccessUrl("/");
-                }).cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
-                .exceptionHandling(configurer ->
-                        configurer.accessDeniedPage("/access-denied"));
+                }).cors(Customizer.withDefaults()).csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/access-denied"));
+
 
         return http.build();
     }
