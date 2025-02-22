@@ -120,10 +120,10 @@
                 </dependencies>
                 <configuration>
                     <from>
-                        <image>eclipse-temurin:23-jre</image>
+                        <image>eclipse-temurin:17-jre</image>
                     </from>
                     <to>
-                        <image>897729121360.dkr.ecr.us-east-1.amazonaws.com/school-portal:latest</image>
+                        <image>897729121360.dkr.ecr.eu-central-1.amazonaws.com/school-portal:latest</image>
                     </to>
                 </configuration>
             </plugin>
