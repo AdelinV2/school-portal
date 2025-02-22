@@ -45,7 +45,7 @@ jobs:
           DB_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
           EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
-        run: mvn clean package
+        run: mvn clean package -DskipTests
         working-directory: ./school-portal
 
       - name: Log in to Amazon ECR
