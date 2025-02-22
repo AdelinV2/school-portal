@@ -12,6 +12,22 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: school_management
+          MYSQL_USER: school
+          MYSQL_PASSWORD: school
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -29,7 +45,6 @@ jobs:
       - name: Log in to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
-
 
       - name: Build and Push Image to AWS ECR with Jib
         run: mvn jib:build -Dimage.uri=${{ secrets.AWS_REPOSITORY_URI }}:latest
