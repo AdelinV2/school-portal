@@ -24,6 +24,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean package
+        working-directory: ./school-portal
 
       - name: Log in to Amazon ECR
         id: login-ecr
