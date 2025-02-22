@@ -16,10 +16,9 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: school_management
-          MYSQL_USER: school
-          MYSQL_PASSWORD: school
+         DB_URL: ${{ secrets.DB_URL }}
+         DB_USERNAME: ${{ secrets.DB_USERNAME }}
+         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
@@ -39,6 +38,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Maven
+        env:
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_USERNAME: ${{ secrets.DB_USERNAME }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          EMAIL_USERNAME: ${{ secrets.EMAIL_USERNAME }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
         run: mvn clean package
         working-directory: ./school-portal
 
