@@ -79,7 +79,7 @@ jobs:
 
       - name: Build Container Image to Docker Daemon with Jib
         working-directory: ./school-portal
-        run: mvn com.google.cloud.tools:jib-maven-plugin:3.4.2:dockerBuild -Dimage.uri=${{ secrets.DOCKERHUB_REPOSITORY_URI }}:latest
+        run: mvn clean compile jib:dockerBuild
 
       - name: Push Docker Hub Image
         run: docker push ${{ secrets.DOCKERHUB_REPOSITORY_URI }}:latest
