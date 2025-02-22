@@ -32,6 +32,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in {30..0}; do
+            if echo 'SELECT 1' | mysql -h127.0.0.1 -uroot -p${{ secrets.MYSQL_ROOT_PASSWORD }}; then
+              break
+            fi
+            sleep 1
+          done        
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
