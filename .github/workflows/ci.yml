@@ -52,7 +52,9 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
         with:
-          region: ${{ secrets.AWS_REGION }}
+          mask-password: true
+          registry-type: private
+          skip-logout: false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
