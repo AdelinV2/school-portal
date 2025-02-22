@@ -60,6 +60,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and Push Image to AWS ECR with Jib
+        working-directory: ./school-portal
         run: mvn com.google.cloud.tools:jib-maven-plugin:3.4.2:build -Dimage.uri=${{ secrets.AWS_REPOSITORY_URI }}:latest
         env:
           AWS_REGION: eu-central-1
@@ -68,6 +69,7 @@ jobs:
         run: echo ${{ secrets.DOCKERHUB_PASSWORD }} | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
 
       - name: Build Container Image to Docker Daemon with Jib
+        working-directory: ./school-portal
         run: mvn com.google.cloud.tools:jib-maven-plugin:3.4.2:dockerBuild -Dimage.uri=${{ secrets.DOCKERHUB_REPOSITORY_URI }}:latest
 
       - name: Push Docker Hub Image
