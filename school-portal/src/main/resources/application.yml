@@ -31,3 +31,5 @@ spring:
           auth: true
           starttls:
             enable: true
+server:
+  port: ${WEBSITES_PORT}
