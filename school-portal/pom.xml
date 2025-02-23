@@ -105,7 +105,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.school.SchoolPortalApplication</mainClass>
+                    <mainClass>com.school.school_portal.SchoolPortalApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
