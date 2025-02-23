@@ -85,6 +85,5 @@ ON DUPLICATE KEY UPDATE name=name;
 
 -- Inserting a default admin user (password is 'admin')
 INSERT INTO users (first_name, last_name, email, password, role_id)
-VALUES ('admin', 'admin', 'admin@admin.com', '$2a$10$YagZ5R4nkqJsrD3yNJi/WeCqtsEiMsBehSUcIQNgFUIIGt2f1Xs9S', 1);
-
-ON DUPLICATE KEY UPDATE email=email;
+SELECT 'admin', 'admin', 'admin@admin.com', '$2a$10$YagZ5R4nkqJsrD3yNJi/WeCqtsEiMsBehSUcIQNgFUIIGt2f1Xs9S', 1
+WHERE NOT EXISTS (SELECT 1 FROM users WHERE email = 'admin@admin.com');
