@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS mysql;
-USE mysql;
+CREATE DATABASE IF NOT EXISTS school_management;
+USE school_management;
 
 CREATE TABLE IF NOT EXISTS roles (
                        id INT AUTO_INCREMENT PRIMARY KEY,
